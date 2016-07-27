@@ -1,0 +1,17 @@
+#welcome-image {
+	margin: 0 auto;
+	width: 30%;
+	padding: 10px;
+}
+#welcome-image img {
+	width: 206px;
+	height: 206px;
+	margin-left: 40px;
+}
+
+.nav-tabs.nav-justified > li > a {
+	color: #262626;
+    border-bottom: none;
+    border-radius: 0px 0px 0 0;
+}
+
