@@ -21,7 +21,7 @@
     <ul class = "social-welcome">
         <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
         <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
-        <li><a href="#"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
+        <li><a href="github.com/munya98"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
     </ul>
     <h5>Latest Images</h5>
 
