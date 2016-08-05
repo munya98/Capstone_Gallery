@@ -45,6 +45,10 @@
 						@endif
 					</div>
 					<div class = "form-group">
+						<p class = "text-right"><label for = "bio">Bio</label></p>
+						<textarea class = "custom-textarea" id = "bio"></textarea>
+					</div>
+					<div class = "form-group">
 						<p class = "text-right"><label for = "avatar">Avatar</label></p>
 						<input class = "custom-input" type="text" name="avatar" value="{{Auth::user()->avatar}}" readonly>
 					</div>

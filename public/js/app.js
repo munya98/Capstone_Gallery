@@ -11,13 +11,36 @@ $(document).ready(function(){
     $("#upload-image-button").click(function(){
         $("#upload-image-modal").modal();
     });
+    $("#image-share-button").click(function(){
+        $("#share-image-modal").modal();
+    });
+    
     $('.dropdown-toggle').dropdown();
-
+    //Album confirm delete
     $('#confirm-delete').submit(function(e){
         if (!confirm('Are you sure you want to delete this album ?')) {
             e.preventDefault();
         }
     });
+    $('#image-delete').submit(function(e){
+        if (!confirm('Are you sure you want to delete this image ?')) {
+            e.preventDefault();
+        }
+    })
+    $('#action-purge').submit(function(e){
+        if (!confirm('Are you sure you want to delete your account?')) {
+            e.preventDefault();
+        }
+    })
+    $("#carousel-recommend").owlCarousel({
+ 
+      autoPlay: 3000, //Set AutoPlay to 3 seconds
+ 
+      items : 4,
+      itemsDesktop : [1199,3],
+      itemsDesktopSmall : [979,3]
+ 
+  });
     $('.session-status').delay(4000).fadeOut("slow");
     $.ajaxSetup({
         headers: {

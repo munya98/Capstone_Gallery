@@ -10,6 +10,7 @@ use App\User;
 use App\Comments;
 use Image as Img;
 use Validator;
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -29,7 +30,7 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        $imagesPagination = Image::where('permission', 'public')->paginate(15);
+        $imagesPagination = Image::where('permission', 'public')->simplePaginate(15);
         // $images = Image::where('permission', 'public')->get();
         // $owners = array();
         // foreach ($images as $img) {
@@ -59,6 +60,9 @@ class HomeController extends Controller
         return view('search')->with('images', $images)->with('term', $term);
     }
     public function view($name){
+        $categories = DB::table('categories')->inRandomOrder()
+                                             ->take(13)
+                                             ->get();
         $image = Image::where('name', '=', $name)->first();
         if (empty($image)) {
             abort(404);
@@ -68,6 +72,16 @@ class HomeController extends Controller
         $currentImage->views = $currentImage->views + 1; 
         $currentImage->save();
         $owner = User::find($currentImage->user_id);
-        return view('images.view')->with('image', $image)->with('comments', $comments)->with('owner', $owner->username);
+        $suggestions = DB::table('images')->select('name', 'album_id')
+                                          ->where('user_id', $currentImage->user_id)
+                                          ->where('permission', 'public')
+                                          ->inRandomOrder()
+                                          ->take(8)
+                                          ->get();
+        return view('images.view')->with('image', $image)
+                                  ->with('comments', $comments)
+                                  ->with('owner', $owner)
+                                  ->with('suggestions', $suggestions)
+                                  ->with('categories', $categories);
     }
 }

@@ -37,8 +37,8 @@
 				<label for = "category">Category</label>
 				<select  name = "category" class = "custom-input">
 					@foreach($categories as $category)
-						<option value = "{{ $category}}">
-							{{$category}}
+						<option value = "{{ $category->name}}">
+							{{$category->name}}
 						</option>
 					@endforeach
 				</select>

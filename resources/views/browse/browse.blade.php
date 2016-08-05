@@ -5,7 +5,7 @@
 		<h1 class = "text-center brand-font">Browse By Categories</h1>
 		<ul class = "browse-categories">
 			@foreach($categories as $category)
-				<li><a href="{{ url('/browse/' . $category)}}"><button class = "btn-custom">{{$category}}</button></a></li>
+				<li><a href="{{ url('/browse/' . $category->name)}}"><button class = "btn-custom">{{$category->name}}</button></a></li>
 			@endforeach
 		</ul>
 	</div>

@@ -2,46 +2,82 @@
 
 @section('content')
 <div class = "container">
-
 	<div class = "row">
-		<div class = "col-md-10">
-			<h1 class="brand-font"> {{$image->display_filename}} </h1>
-			<hr>
+		<div class = "col-md-10" id = "image-container">
+			<h3 class="brand-font">{{$image->display_filename}}</h3>
 			<img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
-		</div>
-		<div class = "col-md-2">
-			<h1 class = "text-right brand-font">Image Details</h1>
-			<hr>
-			<h5>Image Name : {{$image->display_filename}}</h5>
-			<h5>Category : <a href="{{ url('/browse/' . $image->category)}}">{{$image->category}}</a></h5>
-			<h5>Type : {{$image->mime}}</h5>
-			<h5>Rating : {{$image->rating}}</h5>
-			<h5>Views : {{$image->views}}</h5>
-			<h5>Dimensions : {{ $image->width}} x {{ $image->height}}</h5>
-			<h5>Uploaded At : {{ date('Y-m-d', strtotime($image->created_at))}}</h5>
-			<h5>Owner: <a href="{{ url('/user/' . $owner)}}">{{$owner}}</a></h5>
-			@if(Auth::guest())
-				<a href="{{ url('/login')}}">Login to Report Image</a>
-			@else
-				@if($image->user_id === Auth::user()->id)
-					<button class = "btn-custom">Delete Image</button><br><br>
-				@endif
-				<button class = "btn-custom" id = "image-report-button">Report</button>
+			<div id = "upload-details">
+				<p>Uploaded by <a href="{{ url('/user/'. $owner->username)}}">{{ $owner->username}}</a></p>
 				@if(count($errors) > 0)
                     <p class = "error">{{ $errors->first('report') }}</p>
                 @endif
 				@if(Session::has('status'))
 		            <p class = "success">{{ Session::get('status')}}</p>
 		        @endif
-			@endif
-			<h1 class = "brand-font text-right">Comments</h1>
+			</div>
+			<div id = "image-view-buttons">
+				@if(!Auth::guest())
+					<form method = "POST" action = "{{ url('/images/like/'. $image->image_id) }}">
+						{{ csrf_field() }}
+						<button>
+							<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Like
+						</button>
+					</form>
+					<button id = "image-share-button"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
+					<button id = "image-report-button"><i class="fa fa-flag" aria-hidden="true"></i> Report</button>
+					@if($image->user_id === Auth::user()->id)
+						<form  action = "{{ url('/images/purge/' . $image->image_id)}}" method = "POST" id = "image-delete">
+							{{ csrf_field() }}
+							{{ method_field('DELETE')}}
+							<button type = "submit">
+								<i class="fa fa-btn fa-trash"></i> Delete
+							</button>
+						</form>
+					@endif
+				@endif
+			</div>
+			<hr>
+			<h4>More from {{$owner->username}}</h4>
+			<div id = "carousel-recommend">
+				@foreach($suggestions as $suggest)
+					<div class = "item">
+						<a href="{{ url('/images/' . $suggest->name)}}">
+							<img src="{{ route('image.serve', ['album_id' => $suggest->album_id, 'file' => $suggest->name ])}}">
+						</a>
+					</div>
+				@endforeach
+			</div>
+		</div>
+		<div class = "col-md-2" id = "image-details">
+			<h3 class = "text-right brand-font ">Details</h3>
+			<h5  class = "text-right">Views: <strong>{{ $image->views}}</strong></h5>
+			<h5  class = "text-right">Category: <a href="{{ url('/browse/' . $image->category)}}">{{$image->category}}</a></h5>
+			<h5  class = "text-right">Status: {{ $image->permission}}</h5>
+			<h5  class = "text-right">Mime/Type: {{ $image->mime}}</h5>
+			<h5  class = "text-right">Size: {{ $image->size / 1000000}} MB</h5>
+			<h5  class = "text-right">Dimensions: {{ $image->width}} x {{ $image->height}}</h5>
+			<h5  class = "text-right">Uploaded At: {{ date('Y-m-d', strtotime($image->created_at))}}</h5>
+			<h5 class = "text-right"><a href="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">Full Image</a>
+		</div>
+		<div class = "col-md-2">
+			<h3 class = "text-right brand-font ">Other Categories</h3>
+			<ul class = "text-right list-styles">
+				@foreach($categories as $category)
+					<li><a href="{{url('/browse/' . $category->name) }}">{{$category->name}}</a></li>
+				@endforeach
+			</ul>
+		</div> 
+	</div>
+	<div class = "row">
+		<div class ="col-md-6">
+			<h3 class = "brand-font">Comments</h3>
 			<hr>
 			<table class = "table table-striped">
 				@foreach($comments as $comment)					
 					<tr>
 						<td>
 							<p class = "text-right">{{$comment->comment}}</p>
-							<p>By: Wuju @ {{$comment->created_at}}</p>
+							<p>By: User @ {{$comment->created_at}}</p>
 						</td>
 					</tr>
 				@endforeach
@@ -61,10 +97,15 @@
 					<textarea class = "form-control" name = "user-comment"></textarea>
 				</div>
 				<div class = "form-group">
-					<input class = "btn btn-default" type="submit" name="Submit" value = "Submit Comment">
+					<input class = "btn btn-default pull-right" type="submit" name="Submit" value = "Post Comment">
 				</div>
 			</form>
 			@endif
+		</div>
+	</div>
+	<div class ="row">
+		<div class ="col-md-">
+			
 		</div>
 	</div>
 	<!-- Modal -->
@@ -109,6 +150,34 @@
                                 	<input type="submit" name="submit" class = "btn-custom" value="Report">
                                 </div>
                             </form>               
+                        </div>
+                    </div>
+                </div>
+                <div class = "modal-footer">
+                    <button type = "button" class = "btn btn-primary" data-dismiss = "modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Ends -->
+    <!-- Modal -->
+    <div class ="modal fade" id = "share-image-modal" role = "dialog">
+        <div class = "modal-dialog">
+            <!-- Content-->
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h4 class = "modal-title">Share</h4>
+                </div>
+                <div class = "modal-body">
+                    <div class = "row">
+                        <div class = "col-md-12 text-center">
+                        	<button class = "btn-custom">
+                        		<a class="twitter-share-button"
+  								href="https://twitter.com/intent/tweet">Tweet</a>
+							</button>
+                        	<button class = "btn-custom">Facebook</button>
+                        	<button class = "btn-custom">Google+</button>
+                        	<p><a href="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}" target="_blank">Direck Link</a></p>
                         </div>
                     </div>
                 </div>

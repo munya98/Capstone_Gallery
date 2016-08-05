@@ -18,7 +18,7 @@ class CreateReportsTable extends Migration
             $table->string('reason');
             $table->timestamps();
             $table->integer('image_id')->unsigned();
-            //$table->foreign('image_id')->references('image_id')->on('images');
+            $table->foreign('image_id')->references('image_id')->on('images')->onDelete('cascade');
         });
     }
 

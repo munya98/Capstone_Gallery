@@ -165,6 +165,17 @@ class AccountController extends Controller
     public function purge(){
     	return view('account.purge');
     }
+    public function delete(Request $request, User $user) {
+        $account = User::find($user->id);
+        //Check if record passed matches the currently logged in user
+        if($account->id != Auth::user()->id){
+            return "You do not own this account";
+        }else {
+            Storage::deleteDirectory('/users/albums/'. $account->username);
+            $account->delete();
+            return redirect('/');
+        }
+    }
     
     /**
     *   Update Account Avatar

@@ -33,10 +33,12 @@ Route::group(['prefix' => 'images'], function(){
 	Route::get('/display/{album_id}/{file}', ['as' => 'image.serve', 'uses' => 'HomeController@serve']);//Public Serve
 	Route::get('/view/{name}', 'ImagesController@view');
 	Route::get('/upload', 'ImagesController@upload');
+	Route::post('/like/{image}', 'ImagesController@like_image');
 	Route::post('/upload', 'ImagesController@save_image');
 	Route::post('/report', 'ImagesController@report');
 	Route::get('/{name?}', 'HomeController@view');
 	Route::post('/comments/submit', 'ImagesController@submit_comment');
+	Route::delete('/purge/{image}', 'ImagesController@delete');
 });
 
 Route::get('/about', function(){
@@ -50,6 +52,7 @@ Route::group(['prefix' => 'account'], function (){
 	Route::get('/edit', 'AccountController@edit');
 	Route::post('/edit', 'AccountController@edit_details');
 	Route::get('/purge', 'AccountController@purge');
+	Route::delete('/purge/{user}', 'AccountController@delete');
 	Route::get('/password', 'AccountController@password');
 	Route::post('/password', 'AccountController@update_password');
 });

@@ -7,7 +7,7 @@
 				
 				<h2 class = "text-left brand-font">Account Links</h2>
 				<hr>
-				<ul>
+				<ul class = "list-styles">
 					<li><a href="{{url('/account')}}" > Overview </a></li>
 					<li><a href="{{url('/account/avatar')}}" > Change Avatar </a></li>
 					<li><a href="{{url('/account/edit')}}" > Edit </a></li>

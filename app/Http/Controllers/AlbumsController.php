@@ -12,6 +12,7 @@ use App\Image;
 use Auth;
 use Storage;
 use File;
+use DB;
 
 class AlbumsController extends Controller
 {
@@ -145,12 +146,12 @@ class AlbumsController extends Controller
     *   @return 
     */
     public function displayAlbum($albumName){
-        $categories = ['Abstract', 'Anime', 'Auto and Vehicles', 'Black and White', 'Comedy', 'Designs', 'Cartoons' ,'Drawings', 'Entertainment', 'Games', 'Holidays','Seasons', 'Logos', 'Music', 'Nature' , 'Landscape', 'News' , 'Politics', 'Other', 'Pets and Animals', 'Quotes', 'Spiritual', 'Sports', 'Technology'];
+        $categories = DB::table('categories')->get();
     	$album = Album::where('user_id' , '=', Auth::user()->id)->where('name', '=', $albumName)->first();
         if(empty($album)){
            abort(404);
         }
-    	$images = Image::where('album_id', $album->album_id)->simplePaginate(9);
+    	$images = Image::where('album_id', $album->album_id)->simplePaginate(12);
     	return view('albums.details')->with('images', $images)->with('album', $album)->with('categories', $categories);
     }
 

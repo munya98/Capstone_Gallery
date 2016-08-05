@@ -2,12 +2,18 @@
 	margin: 0;
 	
 }
-html, body{
-	height: 100%;
-	font-family: Arvo;
+.list-styles {
+	list-style-type: none;
+}
+.list-styles>li>a {
 	color: black;
-	/*overflow-y: scroll;*/
-	padding-bottom: -1000px;
+}
+html, body{
+	/* FFF8E8 F7FFF7 FF6B6B 7BAE7F EDDEA4 45B69C*/ 
+	background-color: #FFF8E8;
+	height: 100%; 
+	font-family: Inconsolata;
+	color: black;
 }
 .error {
 	color: #DE1A1A;
@@ -17,21 +23,12 @@ html, body{
 	color: #306B34;
 	font-weight: bolder;
 }
-.btn-custom:active {
-	border: none;
-}
 .container {
 	min-height: 90%;
-	width: 85%;
 }
 .container:after{
 	content: "";
 	display: block;
-}
-.img-thumbnail {
-	border-radius: 0;
-	border: none;
-	background-color: transparent;
 }
 /*figure, .polaroid {
 	padding: 6px 8px 10px 8px; 
@@ -41,7 +38,14 @@ html, body{
 	-moz-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
 	box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
 }*/
-
+#carousel-recommend .item {
+	margin: 3px;
+}
+#carousel-recommend .item img{
+	display: block;
+  	width: 100%;
+  	height: 150px;
+}
 .brand-font {
         font-family: 'Lobster' , cursive;
  }
@@ -60,20 +64,6 @@ ul.social-welcome>li{
 ul.social-welcome>li>a{
 	color: black;
 }
-@media (max-width: 480px){
-	ul.social-welcome{
-	 	list-style: none;
-	 	text-align: center;
-	 	float: none;
- 	}
-	ul.social-welcome>li{
-	 	display: block;
-	 	float: none;
-	 	padding: 0;
-	 	padding-bottom: 5px;
-	}
-}
-
 /* Categories*/
 
 ul.browse-categories {
@@ -87,30 +77,28 @@ ul.browse-categories > li > a > button {
 	margin: 10px;
 }
 /*Homepage image */
-#welcome-image {
-    margin-top: 15px;
-}
-#welcome-image img {
-    display: block;
-    margin: 0 auto;
-    width: 206px;
-    height: 206px;
-}
 /*Avatar */
 .avatar-display {
-	disply: block;
+	display: block;
 	margin: 0 auto;
 	width: 190px;
 	height: 190px;
 	margin-bottom: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#user-avatar-display {
+	display: block;
+	width: 170px;
+	height: 170px;
+	margin-bottom: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 #avatar-preview {
-	height: 400px;
-	width: 400px;
-	display: block;
 	margin: 0 auto;
+	display: block;
+	width: 256px;
+	height: 256px;
 }
-
 /* Navbar Styling*/
 #app-layout > nav {
 	background-color: transparent;
@@ -142,16 +130,31 @@ div.grid-item.col-md-4 {
 	display: block;
 	max-width: 100%;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	filter: alpha(opacity=60);
-    -webkit-transform: translate3d(0,0,0);
-	
 }
 .grid-item img:hover{
+	filter: alpha(opacity=60);
+    -webkit-transform: translate3d(0,0,0);
 	opacity: 0.7;
 }
-
-
+/* Images */
+#image-container>img{
+	padding-left: 0px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 /* Forms and Buttons */
+
+#image-view-buttons>button,  #image-view-buttons>form>button{
+	background-color: transparent;
+	border: none;
+	width: 100px;
+	height: 30px;
+}
+#image-view-buttons>form {
+	display: inline;
+}
+#image-view-buttons>button:hover, #image-view-buttons>form>button:hover {
+	background-color: #F9C784;
+}
 .btn-custom {
 	background-color: white;
 	width: 180px;
@@ -165,8 +168,8 @@ div.grid-item.col-md-4 {
 }
 .search-input{
     outline: none;
-    border:none;
-    border-bottom: 1px solid #365730;
+    border: 2px solid black;
+    border-radius: 20px;
     padding-left: 5px;
     width: 100%;
     height: 35px;
@@ -194,6 +197,42 @@ div.grid-item.col-md-4 {
 	width: 100%;
 	height: 40px;
 	border-radius: 5px;
+}
+
+.user-display-details {
+	margin-top: 30px;
+}
+
+@media (max-width: 960px){
+	ul.social-welcome{
+	 	list-style: none;
+	 	text-align: center;
+	 	float: none;
+ 	}
+	ul.social-welcome>li{
+	 	display: block;
+	 	float: none;
+	 	padding: 0;
+	 	padding-bottom: 5px;
+	}
+	.user-display-details{
+		margin-top: 0px;
+		text-align: center;
+	}
+	.user-avatar-display {
+		display: block;
+		margin: 0 auto;
+		width: 190px;
+		height: 190px;
+		margin-bottom: 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+}
+#upload-details {
+	margin-top: 10px;
+}
+#upload-details>p {
+	font-size: 1.1em;
 }
 /* Footer */
 footer{

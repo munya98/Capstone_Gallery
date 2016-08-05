@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Image;
+use DB;
 
 class BrowseController extends Controller
 {
@@ -13,14 +14,13 @@ class BrowseController extends Controller
 
 	}
     public function index(){
-    	$categories = ['Abstract', 'Anime', 'Auto and Vehicles', 'Black and White', 'Comedy', 'Designs', 'Cartoons' ,'Drawings', 'Entertainment', 'Games', 'Holidays','Seasons', 'Logos', 'Music', 'Nature' , 'Landscape', 'News' , 'Politics', 'Other', 'Pets and Animals', 'Quotes', 'Spiritual', 'Sports', 'Technology'];
-
+    	$categories = DB::table('categories')->get();
     	return view('browse.browse')->with('categories', $categories);
     }
     public function category($category){
-        $categories = ['Abstract', 'Anime', 'Auto and Vehicles', 'Black and White', 'Comedy', 'Designs', 'Cartoons' ,'Drawings', 'Entertainment', 'Games', 'Holidays','Seasons', 'Logos', 'Music', 'Nature' , 'Landscape', 'News' , 'Politics', 'Other', 'Pets and Animals', 'Quotes', 'Spiritual', 'Sports', 'Technology'];
     	$images = Image::where('category', '=' , $category)->where('permission', '=', 'public')->get();
-        if(!in_array($category, $categories)){
+        $catCheck = DB::table('categories')->where('name', $category)->first();
+        if (empty($catCheck)) {
             return redirect('/browse');
         }
     	return view('browse.results')->with('images', $images)->with('category', $category);

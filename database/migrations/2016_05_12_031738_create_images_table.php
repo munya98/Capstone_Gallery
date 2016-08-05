@@ -24,13 +24,11 @@ class CreateImagesTable extends Migration
             $table->integer('height');
             $table->integer('width');
             $table->integer('size');
-            $table->integer('rating');
-            $table->string('thumbnail');
             $table->integer('views');
             $table->timestamps();
             $table->integer('album_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            //$table->foreign('album_id')->references('album_id')->on('albums');
+            $table->foreign('album_id')->references('album_id')->on('albums')->onDelete('cascade');
         });
     }
 

@@ -1,14 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
-<style type="text/css">
-    .jumbotron {
-        margin-top: -20px;
-        height: 300px;
-    }
-    
-</style>
-        
+     
 <div class = "container">
     <div class = "row">
         @if(Session::has('status'))
@@ -32,16 +24,7 @@
         <li><a href="#"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
     </ul>
     <h5>Latest Images</h5>
-    <!-- <div class = "grid">
-        <div class = "grid-sizer"></div>
-        @foreach($images as $image)
-            <div class = "grid-item">
-            <a href="{{url('/images/'. $image->name)}}">
-                <img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
-            </a>
-            </div>
-        @endforeach
-    </div> -->
+
     <div class = "grid">
         <div class = "grid-sizer col-md-4"></div>
         @foreach($images as $image)
@@ -54,6 +37,8 @@
             </div>
         @endforeach
     </div>
+    <div class = "text-center">
+        {{ $images->links()}}
+    </div>
 </div>
-
 @endsection

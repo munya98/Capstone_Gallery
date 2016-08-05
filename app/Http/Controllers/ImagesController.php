@@ -39,7 +39,7 @@ class ImagesController extends Controller
     // }
     public function upload(){
 
-        $categories = ['Abstract', 'Anime', 'Auto and Vehicles', 'Black and White', 'Comedy', 'Designs', 'Cartoons' ,'Drawings', 'Entertainment', 'Games', 'Holidays','Seasons', 'Logos', 'Music', 'Nature' , 'Landscape', 'News' , 'Politics', 'Other', 'Pets and Animals', 'Quotes', 'Spiritual', 'Sports', 'Technology'];
+        $categories = DB::table('categories')->get();
 
     	$currentUser = Auth::user()->id;
     	$albumsCount = Album::where('user_id', $currentUser)->count();
@@ -127,6 +127,21 @@ class ImagesController extends Controller
         ]);
         return redirect()->back();
     }
+    public function like_image(Request $request, Image $image){
+        $likeRecord = DB::table('likes')->where('image_id', $image->image_id)
+                          ->where('user_id', Auth::user()->id)
+                          ->first();
+        if (empty($likeExists)) {
+            DB::table('likes')->where('image_id', $image->image_id)
+                          ->where('user_id', Auth::user()->id)
+                          ->delete();
+            DB::table('likes')->insert([
+                'image_id' => $image->image_id,
+                'user_id' => Auth::user()->id,
+            ]);
+        }
+        return redirect()->back();
+    }
     public function view($name){
         $image = Image::where('name', '=', $name)->first();
         $comments = Comments::where('image_id', '=', $image->image_id)->get();
@@ -134,6 +149,25 @@ class ImagesController extends Controller
         $currentImage->views = $currentImage->views + 1; 
         $currentImage->save();
         return view('image')->with('image', $image)->with('comments', $comments);
+    }
+    /**
+     * Delete the given image
+     *
+     * @param  Request  $request
+     * @param  Task  $task
+     * @return Response
+    */
+    public function delete(Request $reqeust, Image $image){
+        $this->authorize('destroy', $image);
+
+        if (Storage::disk('local')->exists($image->path . '/' . $image->name)) {
+            Storage::delete($image->path . '/' . $image->name);
+            $image->delete();
+            //Image::where('album_id', $album->album_id)->delete();
+            return redirect('/albums');
+        }
+
+        abort(404);
     }
 }
 
