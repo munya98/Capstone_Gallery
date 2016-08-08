@@ -7,12 +7,12 @@
 				<img class = "img-circle img-responsive" src="{{ route('account.avatar', $user->avatar)}}" class="img-circle" id = "user-avatar-display">
 			</div>
 			<div class = "col-md-6">
-				<div class = "user-display-details">
-					<h5> {{ $user->username}} </h5>
-					<h5> {{ $album_count}} Album(s) </h5>
-					<h5> {{ $img_count }} Image(s) </h5>
+				<div class = "user-display-details" style = "margin-top: 0px;">
+					<p> {{ $user->username}} </p>
+					<p> Twitter: Instagram: Facebook: </p>
+					<p> {{ $img_count }} Image(s) | {{ $album_count}} Album(s)</p>
 					<p> Bio:</p>
-					<p> He's on his way, he's about to get paid, he's on his way to hollywood (change this later, hardcorded).</p>
+					<p> {{ $user->bio}}</p>
 				</div>
 			</div>
 			<div class = "row">

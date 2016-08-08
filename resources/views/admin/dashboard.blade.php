@@ -78,16 +78,5 @@
 				</div>
 			@endforeach
 		</div>
-		<div class = "col-md-3 dashboard-module-recent-users module">
-			<h4>Recent Users</h4>
-			<hr>
-			@foreach($recentUsers as $user)
-				<div class = "recent-user">
-					<img class = "recent-user-avatar img-circle img-responsive" src="{{ route('account.avatar', $user->avatar)}}" class="img-circle" id = "user-profile-pic">
-					<p><strong>{{ $user->name}}</strong> goes by <strong>{{ $user->username}}</strong></p>
-					<hr>
-				</div>
-			@endforeach
-		</div>
 	</div>
 @endsection

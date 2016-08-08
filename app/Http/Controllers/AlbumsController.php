@@ -71,8 +71,8 @@ class AlbumsController extends Controller
 
     	//Data required to create the folder
     	$username = Auth::user()->username;
-    	$permission = $request->input('album-Permission');
-    	$name = $request->input('album-Title');
+    	$permission = rtrim($request->input('album-Permission'));
+    	$name = rtrim($request->input('album-Title'));
     	$path = 'users/albums/' . $username . '/' . $permission . '/' . $name;
 
     	/*
@@ -87,7 +87,7 @@ class AlbumsController extends Controller
 			$request->user()->albums()->create([
 				'name' => $name,
 				'path' => $path,
-				'description' => $request->input('album-Description'),
+				'description' => rtrim($request->input('album-Description')),
 				'permission' => $permission,
 			]);
 			return redirect()->back()->with('status', 'Album was successfully created');
@@ -125,7 +125,7 @@ class AlbumsController extends Controller
         /*  If the user changes the original name, update the name in the database 
         *   and update the name of the album in Storage;
         */
-        $currentAlbum->name = $request->input('album-Title');
+        $currentAlbum->name = rtrim($request->input('album-Title'));
         $currentAlbum->description = $request->input('album-Description');
         $currentAlbum->permission = $request->input('album-Permission');
         

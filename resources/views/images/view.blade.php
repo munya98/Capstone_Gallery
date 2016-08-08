@@ -4,7 +4,9 @@
 <div class = "container">
 	<div class = "row">
 		<div class = "col-md-10" id = "image-container">
-			<h3 class="brand-font">{{$image->display_filename}}</h3>
+			<div >
+				<h3 class="brand-font">{{$image->display_filename}}</h3> 
+			</div>
 			<img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
 			<div id = "upload-details">
 				<p>Uploaded by <a href="{{ url('/user/'. $owner->username)}}">{{ $owner->username}}</a></p>
@@ -26,6 +28,7 @@
 					<button id = "image-share-button"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
 					<button id = "image-report-button"><i class="fa fa-flag" aria-hidden="true"></i> Report</button>
 					@if($image->user_id === Auth::user()->id)
+						<button id = "image-move-button"><span class="glyphicon glyphicon-save-file"></span> Move</button>
 						<form  action = "{{ url('/images/purge/' . $image->image_id)}}" method = "POST" id = "image-delete">
 							{{ csrf_field() }}
 							{{ method_field('DELETE')}}
@@ -51,6 +54,7 @@
 		<div class = "col-md-2" id = "image-details">
 			<h3 class = "text-right brand-font ">Details</h3>
 			<h5  class = "text-right">Views: <strong>{{ $image->views}}</strong></h5>
+			<h5  class = "text-right">Likes: <strong>{{ $likes}}</strong></h5>
 			<h5  class = "text-right">Category: <a href="{{ url('/browse/' . $image->category)}}">{{$image->category}}</a></h5>
 			<h5  class = "text-right">Status: {{ $image->permission}}</h5>
 			<h5  class = "text-right">Mime/Type: {{ $image->mime}}</h5>

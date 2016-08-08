@@ -10,7 +10,6 @@
 }
 html, body{
 	/* FFF8E8 F7FFF7 FF6B6B 7BAE7F EDDEA4 45B69C*/ 
-	background-color: #FFF8E8;
 	height: 100%; 
 	font-family: Inconsolata;
 	color: black;
@@ -23,13 +22,7 @@ html, body{
 	color: #306B34;
 	font-weight: bolder;
 }
-.container {
-	min-height: 90%;
-}
-.container:after{
-	content: "";
-	display: block;
-}
+
 /*figure, .polaroid {
 	padding: 6px 8px 10px 8px; 
 	background: white;
@@ -153,7 +146,11 @@ div.grid-item.col-md-4 {
 	display: inline;
 }
 #image-view-buttons>button:hover, #image-view-buttons>form>button:hover {
-	background-color: #F9C784;
+	background-color: #B2E6D4;
+}
+#image-rename-button {
+	background-color: transparent;
+	border: none;
 }
 .btn-custom {
 	background-color: white;
@@ -163,7 +160,7 @@ div.grid-item.col-md-4 {
 	border-radius: 5px;
 	border-color: black;
 }
-.btn-custom:active, .btn-custom:focus {
+.btn-custom:active, .btn-custom:focus, #image-rename-button {
 	outline: none !important;
 }
 .search-input{
@@ -235,9 +232,16 @@ div.grid-item.col-md-4 {
 	font-size: 1.1em;
 }
 /* Footer */
+/*.container {
+	min-height: 90%;
+}
+.container:after{
+	content: "";
+	display: block;
+}
 footer{
 	height: 50px;
-}
+}*/
 /*Albums-List Thumbnail*/
 
 

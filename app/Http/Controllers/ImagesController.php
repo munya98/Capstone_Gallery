@@ -51,11 +51,15 @@ class ImagesController extends Controller
     	return view('images.upload')->with('albums', $albums)->with('categories', $categories);
     }
     public function save_image(Request $request){
-    	$validator = Validator::make($request->all(), [
-    		'name' => 'required|min:4|max:25',
-    		'image' => 'required|image|max:2048',
-    		'album' => 'required'
-    	]);
+        $rules = [
+            'name' => 'required|min:4|max:25',
+            'album' => 'required'
+        ];
+        $images = count($request->input('image'));
+        foreach (range(0, $images) as $image) {
+            $rules['image.' . $image] = 'required|image|max:5000';
+        }
+    	$validator = Validator::make($request->all(), $rules);
     	if ($validator->fails()) {
     		return redirect()->back()->withErrors($validator);
     	}
@@ -66,33 +70,38 @@ class ImagesController extends Controller
     		//Current Album
     		$album = Album::find($currentAlbum->album_id);
     		if ($request->hasFile('image')) {
-    			$userImage = $request->file('image');
-                $filename = uniqid(). '.' . $userImage->getClientOriginalExtension();
-                $albumThumbnailName = Auth::user()->username . str_replace(' ', '', $currentAlbum->name) . '.' . $userImage->getClientOriginalExtension();
-                $albumThumbnail = Img::make($userImage)->resize(592, 293);
-                $image = Img::make($userImage);
-                $height = Img::make($userImage)->height();
-                $width = Img::make($userImage)->width();
-                Storage::put($currentAlbum->path . '/' . $filename, $image->stream());
-                Storage::put('users/albums/albums_thumbnail/' . $albumThumbnailName, $albumThumbnail->stream());
-                // $thumbnailName = $request->input('name') . '_thumbnail' . '.' . $userImage->getClientOriginalExtension();
-                // $thumbnail = Img::make($userImage)->resize(round($width * 0.33), round($height * 0.33));
-                // Storage::put($currentAlbum->path . '/' . $thumbnailName, $thumbnail->stream());
+    			$userImages = $request->file('image');
+                foreach($userImages as $userImage){
+                    $filename = uniqid(). '.' . $userImage->getClientOriginalExtension();
+                    $albumThumbnailName = Auth::user()->username . str_replace(' ', '', $currentAlbum->name) . '.' . $userImage->getClientOriginalExtension();
+                    $albumThumbnail = Img::make($userImage)->resize(592, 293);
+                    $image = Img::make($userImage);
+                    $height = Img::make($userImage)->height();
+                    $width = Img::make($userImage)->width();
+                    Storage::put($currentAlbum->path . '/' . $filename, $image->stream());
+                    Storage::put('users/albums/albums_thumbnail/' . $albumThumbnailName, $albumThumbnail->stream());
+                    $albumThumbnail->destroy();
+                    $image->destroy();
+                    // $thumbnailName = $request->input('name') . '_thumbnail' . '.' . $userImage->getClientOriginalExtension();
+                    // $thumbnail = Img::make($userImage)->resize(round($width * 0.33), round($height * 0.33));
+                    // Storage::put($currentAlbum->path . '/' . $thumbnailName, $thumbnail->stream());
 
-                $currentAlbum->thumbnail = $albumThumbnailName;
-                $currentAlbum->save();
-                $album->image()->create([
-	    			'name' => $filename,
-	    			'path' => $currentAlbum->path,
-	    			'permission' => $currentAlbum->permission,
-                    'height' => $height,
-                    'width' => $width,
-	    			'category' => $request->input('category'),
-	    			'mime' => $userImage->getClientMimeType(),
-	    			'display_filename' => $request->input('name'),
-                    'size' => ($userImage->getClientSize()),
-                    'user_id' => Auth::user()->id,
-    			]);
+                    $currentAlbum->thumbnail = $albumThumbnailName;
+                    $currentAlbum->save();
+                    $album->image()->create([
+                        'name' => $filename,
+                        'path' => $currentAlbum->path,
+                        'permission' => $currentAlbum->permission,
+                        'height' => $height,
+                        'width' => $width,
+                        'category' => $request->input('category'),
+                        'mime' => $userImage->getClientMimeType(),
+                        'display_filename' => $request->input('name'), //Might Need Fixing
+                        'size' => ($userImage->getClientSize()),
+                        'user_id' => Auth::user()->id,
+                    ]);
+
+                }
     		}
     		return redirect()->back();
     	}
@@ -128,13 +137,15 @@ class ImagesController extends Controller
         return redirect()->back();
     }
     public function like_image(Request $request, Image $image){
-        $likeRecord = DB::table('likes')->where('image_id', $image->image_id)
+        $like = DB::table('likes')->where('image_id', $image->image_id)
                           ->where('user_id', Auth::user()->id)
-                          ->first();
-        if (empty($likeExists)) {
+                          ->get();
+        if (!empty($like)) {
             DB::table('likes')->where('image_id', $image->image_id)
-                          ->where('user_id', Auth::user()->id)
-                          ->delete();
+                              ->where('user_id', Auth::user()->id)
+                              ->delete();
+            
+        }else{
             DB::table('likes')->insert([
                 'image_id' => $image->image_id,
                 'user_id' => Auth::user()->id,
@@ -159,12 +170,12 @@ class ImagesController extends Controller
     */
     public function delete(Request $reqeust, Image $image){
         $this->authorize('destroy', $image);
-
+        $album = Album::find($image->album_id);
         if (Storage::disk('local')->exists($image->path . '/' . $image->name)) {
             Storage::delete($image->path . '/' . $image->name);
             $image->delete();
             //Image::where('album_id', $album->album_id)->delete();
-            return redirect('/albums');
+            return redirect('albums/' . $album->name);
         }
 
         abort(404);

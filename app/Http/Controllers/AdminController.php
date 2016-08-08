@@ -33,4 +33,25 @@ class AdminController extends Controller
     								  ->with('recentImages', $recentImages)
     								  ->with('recentUsers', $recentUsers);
     }
+    public function users(){
+        $users = DB::table('users')->paginate(25);
+        return view('admin.users')->with('users', $users);
+    }
+    public function view_user(User $user){
+        return $user;
+    }
+    public function albums(){
+        return view('admin.albums');
+    }
+    public function images(){
+        $images = DB::table('images')->paginate(25);
+        return view('admin.images')->with('images', $images);
+    }
+    public function view_image(Image $image){
+        return $image;
+    }
+    public function reports(){
+        return view('admin.reports');
+    }
+
 }

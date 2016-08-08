@@ -37,7 +37,7 @@
 					</div>
 					<div class = "form-group">
 						<p class = "text-right"><label for = "question">Answer</label></p>
-						<input class = "custom-input" type="text" name="answer">
+						<input class = "custom-input" type="text" name="answer" value="{{Auth::user()->answer}}">
 						@if($errors->has('answer'))
 							<span class = "help-block">
 								<strong class = "error">{{ $errors->first('answer')}}</strong>
@@ -46,7 +46,12 @@
 					</div>
 					<div class = "form-group">
 						<p class = "text-right"><label for = "bio">Bio</label></p>
-						<textarea class = "custom-textarea" id = "bio"></textarea>
+						<textarea class = "custom-textarea" name = "bio" rows="3">{{Auth::user()->bio}}</textarea>
+						@if($errors->has('bio'))
+							<span class = "help-block">
+								<strong class = "error">{{ $errors->first('bio')}}</strong>
+							</span>
+						@endif
 					</div>
 					<div class = "form-group">
 						<p class = "text-right"><label for = "avatar">Avatar</label></p>

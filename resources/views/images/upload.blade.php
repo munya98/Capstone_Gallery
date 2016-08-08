@@ -15,7 +15,7 @@
 			@endif
 			<div class = "form-group">
 				<label for = "image">Upload Image</label>
-				<input type="file" name="image" class = "{{ $errors->has('image') ? 'error' : ''}}">
+				<input type="file" name="image[]" class = "{{ $errors->has('image') ? 'error' : ''}}" multiple>
 			</div>
 			@if($errors->has('image'))
 				<strong class = "error">{{ $errors->first('image')}}</strong>

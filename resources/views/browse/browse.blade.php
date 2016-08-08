@@ -8,5 +8,20 @@
 				<li><a href="{{ url('/browse/' . $category->name)}}"><button class = "btn-custom">{{$category->name}}</button></a></li>
 			@endforeach
 		</ul>
+		<div class = "row">
+			<p class = "text-center">Suggest a Category</p>
+			<div class = "col-md-offset-4 col-md-4">
+				<form method = "POST" action = "{{ url('browse/category')}}">
+					{{ csrf_field() }}
+					<input type="text" name="suggest" class = "custom-input" placeholder="Cateogry..." value = "{{ old('suggest') }}"><br><br>
+					@if($errors->has('suggest'))
+						<p class = "error">{{ $errors->first() }}</p>
+					@endif
+					<div class = "text-center">
+						<button class = "btn-custom text-center">Suggest</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 @endsection

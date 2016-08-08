@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Image;
+use Validator;
 use DB;
 
 class BrowseController extends Controller
@@ -24,5 +25,14 @@ class BrowseController extends Controller
             return redirect('/browse');
         }
     	return view('browse.results')->with('images', $images)->with('category', $category);
+    }
+    public function suggest(Request $request){
+        $validator = Validator::make($request->all(), [
+            'suggest' => 'required|min:3'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+        return $request->input('suggest');
     }
 }

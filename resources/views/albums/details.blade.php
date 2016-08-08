@@ -120,7 +120,7 @@
                                 </div>
                                 <div class = "form-group">
                                     <label for = "image">Upload Image</label>
-                                    <input type="file" name="image" class = "custom-input file">
+                                    <input type="file" name="image[]" class = "custom-input file" multiple>
                                 </div>
                                 <div class = "form-group">
                                     <label for = "album">Album Name</label>

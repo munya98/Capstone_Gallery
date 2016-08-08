@@ -25,7 +25,7 @@
 						<li><i class="fa fa-user" aria-hidden="true"></i> <a href="{{ url('/admin/users')}}">Users</a></li>
 						<li><i class="fa fa-folder" aria-hidden="true"></i> <a href="{{ url('/admin/albums')}}">Albums</a></li>
 						<li><i class="fa fa-camera" aria-hidden="true"></i> <a href="{{ url('/admin/images')}}">Images</a></li>
-						<li><i class="fa fa-line-chart" aria-hidden="true"></i> <a href="{{ url('/admin/charts')}}">Charts</a></li>
+						<li><i class="fa fa-line-chart" aria-hidden="true"></i> <a href="{{ url('/admin/reports')}}">Reports</a></li>
 						<li><i class="fa fa-sign-out" aria-hidden="true"></i> <a href="{{ url('/logout')}}">Logout</a></li>
 					</ul>
 			</div>

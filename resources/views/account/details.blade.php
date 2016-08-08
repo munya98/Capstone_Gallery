@@ -9,7 +9,7 @@
 				<form>
 					<div class = "form-group">
 						<p class = "text-right"><label for = "name">Name</label></p>
-						<input class = "custom-input" type="text" name="text" value="{{Auth::user()->name}}" readonly>
+						<input class = "custom-input" type="text" name="name" value="{{Auth::user()->name}}" readonly>
 					</div>
 					<div class = "form-group">
 						<p class = "text-right"><label for = "username">Username</label></p>

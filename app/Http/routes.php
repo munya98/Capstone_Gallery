@@ -18,6 +18,7 @@ Route::get('/search', 'HomeController@search');
 Route::group(['prefix' => 'browse'], function(){
 	Route::get('/', 'BrowseController@index');
 	Route::get('/{category}', 'BrowseController@category');
+	Route::post('/category', 'BrowseController@suggest');
 });
 
 Route::group(['prefix' => 'albums'], function (){
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'images'], function(){
 	Route::get('/upload', 'ImagesController@upload');
 	Route::post('/like/{image}', 'ImagesController@like_image');
 	Route::post('/upload', 'ImagesController@save_image');
+	//Route::post('/rename', 'ImagesController@rename');////////////TEst
 	Route::post('/report', 'ImagesController@report');
 	Route::get('/{name?}', 'HomeController@view');
 	Route::post('/comments/submit', 'ImagesController@submit_comment');
@@ -47,6 +49,8 @@ Route::get('/about', function(){
 
 Route::group(['prefix' => 'account'], function (){
 	Route::get('/', 'AccountController@index');
+	Route::get('/social', 'AccountController@social');
+	Route::post('/social', 'AccountController@social_update');
 	Route::get('/avatar', 'AccountController@avatar');
 	Route::post('/avatar', 'AccountController@update_avatar');
 	Route::get('/edit', 'AccountController@edit');
@@ -62,5 +66,11 @@ Route::group(['prefix' => 'user'], function(){
 });
 Route::group(['prefix' => 'admin'], function(){
 	Route::get('/', 'AdminController@index');
+	Route::get('/users', 'AdminController@users');
+	Route::get('/users/{user}', 'AdminController@view_user');
+	Route::get('/albums', 'AdminController@albums');
+	Route::get('/images', 'AdminController@images');
+	Route::get('/images/{image}', 'AdminController@view_image');
+	Route::get('/reports', 'AdminController@reports');
 });
 

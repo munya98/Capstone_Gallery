@@ -47,9 +47,7 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    // $('#report-form').submit(function(e){
-    //     e.preventDefault();
-    //     var x = $(this).serializeArray();
+    // $('#image-rename-button').click(function(){
     //     //console.log(x);
     //     // $.ajax({
     //     //     url: '/images/report',
@@ -60,10 +58,10 @@ $(document).ready(function(){
     //     //         console.log("dasdas");
     //     //     }
     //     // });
-
-    //     $.post('/images/report', {report: x}, function(data){
+    //     //console.log('asdaada');
+    //     $.post('/images/rename', function(data){
     //         console.log(data)
-    //     })
+    //     });
     // });
     var $grid = $('.grid').masonry({
             itemSelector: '.grid-item',

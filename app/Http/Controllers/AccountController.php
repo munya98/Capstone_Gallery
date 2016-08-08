@@ -13,6 +13,7 @@ use Image;
 use Validator;
 use Hash;
 use App\Http\Requests;
+use DB;
 
 class AccountController extends Controller
 {
@@ -68,6 +69,7 @@ class AccountController extends Controller
                 'name' => 'required|min:3|max:25',
                 'question' => 'required|min:10',
                 'answer' => 'required|min:5',
+                'bio' => 'max:255',
             ]);
 
             if($validator->fails()){
@@ -77,7 +79,8 @@ class AccountController extends Controller
             $user = User::find(Auth::user()->id);
             $user->name = $request->input('name');
             $user->question = $request->input('question');
-            $user->answer = bcrypt($request->input('answer'));
+            $user->answer = $request->input('answer');
+            $user->bio = $request->input('bio');
             $user->save();
             return redirect()->back();
         }
@@ -100,7 +103,8 @@ class AccountController extends Controller
             $user->name = $request->input('name');
             $user->username = $request->input('username');
             $user->question = $request->input('question');
-            $user->answer = bcrypt($request->input('answer'));
+            $user->answer = $request->input('answer');
+            $user->bio = $request->input('bio');
             $user->avatar = $request->input('username') . substr($request->input('avatar'), -4);
             Storage::move('avatars/' . Auth::user()->avatar, 'avatars/' . $request->input('username') . substr($request->input('avatar'), -4));
             $user->save();
@@ -165,6 +169,23 @@ class AccountController extends Controller
     public function purge(){
     	return view('account.purge');
     }
+    public function social(){
+        return view('account.social');
+    }
+    /**
+    *   User_id needs to be unique
+    *   if exists update update otherwise insert
+    *
+    */
+    public function social_update(Request $request){
+        DB::table('social')->insert([
+            'twitter' => $request->input('twitter'),
+            'instagram' => $request->input('instagram'),
+            'facebook' => $request->input('facebook'),
+            'user_id' => Auth::user()->id,
+        ]);
+        return redirect()->back();
+    }
     public function delete(Request $request, User $user) {
         $account = User::find($user->id);
         //Check if record passed matches the currently logged in user
@@ -176,7 +197,6 @@ class AccountController extends Controller
             return redirect('/');
         }
     }
-    
     /**
     *   Update Account Avatar
     *   @return redirect back to current page with error messages if an error occured 

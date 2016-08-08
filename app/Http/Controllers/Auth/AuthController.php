@@ -31,7 +31,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/albums';
+    protected $redirectTo = '/';
     protected $username = 'username';
 
     /**
@@ -76,7 +76,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'username' => $data['username'],
             'question' => $data['question'],
-            'answer' => bcrypt($data['answer']),
+            'answer' => $data['answer'],
             'password' => bcrypt($data['password']),
             'active' => 1, 
         ]);

@@ -58,3 +58,25 @@ html, body {
 .recent-user>p{
 	display: inline-block;
 }
+
+/* Masonry Grid Styling*/
+
+/* clear fix */
+.grid:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+div.grid-item.col-md-4 {
+	padding: 5px;
+}
+.grid-item img {
+	display: block;
+	max-width: 100%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.grid-item img:hover{
+	filter: alpha(opacity=60);
+    -webkit-transform: translate3d(0,0,0);
+	opacity: 0.7;
+}
