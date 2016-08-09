@@ -34,20 +34,20 @@ $(document).ready(function(){
     })
     $("#carousel-recommend").owlCarousel({
  
-      autoPlay: 3000, //Set AutoPlay to 3 seconds
+        autoPlay: 3000, //Set AutoPlay to 3 seconds
  
-      items : 4,
-      itemsDesktop : [1199,3],
-      itemsDesktopSmall : [979,3]
+        items : 4,
+        itemsDesktop : [1199,3],
+        itemsDesktopSmall : [979,3]
  
-  });
+    });
     $('.session-status').delay(4000).fadeOut("slow");
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    // $('#image-rename-button').click(function(){
+    // $('#sort-latest').click(function(e){
     //     //console.log(x);
     //     // $.ajax({
     //     //     url: '/images/report',
@@ -59,8 +59,18 @@ $(document).ready(function(){
     //     //     }
     //     // });
     //     //console.log('asdaada');
-    //     $.post('/images/rename', function(data){
-    //         console.log(data)
+    //     // var grid = '<div class = "grid">';
+    //     // grid += '<div class = "grid-sizer col-md-4"></div>';
+    //     //e.preventDefault();
+    //     $.get('/',{'sort' : 'latest'} , function(data){
+    //         console.log(data['data']);
+    //         for (var i = 0; i < data['data'].length; i++) {
+    //             // grid += '<div class = "grid-item col-md-4">';
+    //             // grid += '<div class = "grid-item-content">';
+    //             // grid += ''
+    //             //$('.grid-item-content>a').attr('href', "/images/" + data['data'][i]['name']);
+    //             console.log(data['data'][i]['category']);
+    //         }
     //     });
     // });
     var $grid = $('.grid').masonry({

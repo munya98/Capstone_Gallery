@@ -5,12 +5,26 @@ html, body {
 	font-family: 'Inconsolata';
 	background-color: #F7F4F3;
 }
+.green {
+	color: #00A676;
+}
+.red {
+	color: #91171F;
+}
 .avatar-admin-display {
 	display: block;
 	margin: 0 auto;
 	width: 160px;
 	height: 160px;
 	margin-bottom: 15px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.user-view-profile {
+	display: block;
+	width: 256px;
+	height: 256px;
+	margin: 0 auto;
+	margin-bottom: 10px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .aside-menu {
@@ -58,7 +72,14 @@ html, body {
 .recent-user>p{
 	display: inline-block;
 }
-
+.user-view-profile-button {
+	display: block;
+	text-align: center;
+	height: 30px;
+	width: 80%;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
 /* Masonry Grid Styling*/
 
 /* clear fix */

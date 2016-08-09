@@ -19,14 +19,14 @@
         </div>
     </div><br>
     <ul class = "social-welcome">
-        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
-        <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+        <li><a href="#"><i class="fa fa-twitter" target = "_blank" aria-hidden="true"></i> Twitter</a></li>
+        <li><a href="#"><i class="fa fa-facebook-square" target="_blank" aria-hidden="true"></i> Facebook</a></li>
         <li><a href="https://github.com/munya98" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
     </ul>
     <div class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Latest<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="{{ url('/?sort=latest')}}">Latest</a></li>
+            <li><a href="{{ url('/?sort=latest')}}">Latest</a></li> <!--  -->
             <li><a href="{{ url('/?sort=old')}}">Oldest</a></li>
             <li><a href="{{ url('/?sort=popular')}}">Most Viewed</a></li>
         </ul>

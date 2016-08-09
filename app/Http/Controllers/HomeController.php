@@ -53,7 +53,7 @@ class HomeController extends Controller
             break;
             case 'popular':
               $imagesPagination = Image::where('permission', 'public')
-                                     ->OrderBy('views', 'asc')
+                                     ->OrderBy('views', 'desc')
                                      ->paginate(25);
             break;
             default:

@@ -16,7 +16,7 @@
 			<div class = "col-md-2 aside-menu">
 				<h2 class = "text-center">Capstone</h2>
 				<hr>
-					<img class = "avatar-admin-display img-circle img-responsive" src="{{ route('account.avatar', Auth::user()->avatar)}}" class="img-circle" id = "user-profile-pic">
+					<img class = "avatar-admin-display img-circle img-responsive" src="{{ route('account.avatar', Auth::user()->avatar)}}" id = "user-profile-pic">
 					<p class = "text-center">{{ Auth::user()->name}}</p>
 					<p class = "text-center">Administrator</p><br>
 					<ul id = "aside-menu-list">

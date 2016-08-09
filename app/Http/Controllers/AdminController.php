@@ -38,7 +38,9 @@ class AdminController extends Controller
         return view('admin.users')->with('users', $users);
     }
     public function view_user(User $user){
-        return $user;
+        $images = Image::where('user_id', $user->id)->count();
+        return view('admin.singleuser')->with('user', $user)
+                                       ->with('images', $images);
     }
     public function albums(){
         return view('admin.albums');
