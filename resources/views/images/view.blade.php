@@ -1,6 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+ 
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+ 
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
 <div class = "container">
 	<div class = "row">
 		<div class = "col-md-10" id = "image-container">
@@ -10,7 +27,7 @@
 			<img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
 			<div id = "upload-details">
 				<p>Uploaded by <a href="{{ url('/user/'. $owner->username)}}">{{ $owner->username}}</a></p>
-				@if(count($errors) > 0)
+				@if($errors->has('report'))
                     <p class = "error">{{ $errors->first('report') }}</p>
                 @endif
 				@if(Session::has('status'))
@@ -28,7 +45,7 @@
 					<button id = "image-share-button"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
 					<button id = "image-report-button"><i class="fa fa-flag" aria-hidden="true"></i> Report</button>
 					@if($image->user_id === Auth::user()->id)
-						<button id = "image-move-button"><span class="glyphicon glyphicon-save-file"></span> Move</button>
+						<button id = "image-update-button"><span class="glyphicon glyphicon-save-file"></span> Update</button>
 						<form  action = "{{ url('/images/purge/' . $image->image_id)}}" method = "POST" id = "image-delete">
 							{{ csrf_field() }}
 							{{ method_field('DELETE')}}
@@ -113,6 +130,53 @@
 		</div>
 	</div>
 	<!-- Modal -->
+    <div class ="modal fade" id = "update-image-modal" role = "dialog">
+        <div class = "modal-dialog">
+            <!-- Content-->
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h4 class = "modal-title">Update Image Details</h4>
+                </div>
+                <div class = "modal-body">
+                    <div class = "row">
+                        <div class = "col-md-12">
+                            <form id = "report-form" method = "POST" action = "{{ url('images/update/' . $image->image_id)}}">
+                            {!! csrf_field() !!}
+                            <div class = "form-group">
+                            	<label for = "name">Name</label>
+                            	<input  class = "custom-input" type="text" name="name" value = "{{ old('name') }}">
+                            	@if($errors->has('name'))
+                            		<p class = "error">{{ $errors->first('name')}}</p>
+                            	@endif
+                            </div>
+                            <div class = "form-group">
+                            	<label for = "category">Category</label>
+                            	<select name = "category" class = "custom-input">
+									@foreach($allcategories as $category)
+										<option value = "{{ $category->name }}">
+											{{ $category->name}}
+										</option>
+									@endforeach
+								</select>
+								@if($errors->has('category'))
+                            		<p class = "error">{{ $errors->first('category')}}</p>
+                            	@endif
+                            </div>
+                            <div class = "form-group">
+                            	<button class = "btn-custom" type = "submit"><span class="glyphicon glyphicon-save-file"></span> Update</button>
+                            </div>
+                            </form>               
+                        </div>
+                    </div>
+                </div>
+                <div class = "modal-footer">
+                    <button type = "button" class = "btn btn-primary" data-dismiss = "modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Ends -->
+	<!-- Modal -->
     <div class ="modal fade" id = "report-image-modal" role = "dialog">
         <div class = "modal-dialog">
             <!-- Content-->
@@ -175,12 +239,23 @@
                 <div class = "modal-body">
                     <div class = "row">
                         <div class = "col-md-12 text-center">
-                        	<button class = "btn-custom">
-                        		<a class="twitter-share-button"
-  								href="https://twitter.com/intent/tweet">Tweet</a>
-							</button>
-                        	<button class = "btn-custom">Facebook</button>
-                        	<button class = "btn-custom">Google+</button>
+							<a 	class="twitter-share-button" 
+								href="https://twitter.com/share" 
+								target="_blank"
+								data-size = "large"
+								data-text = "shared test image"
+								data-hashtags = "test">
+								Tweet
+								<!-- <button class = "btn-custom">Tweet</button> -->
+  							</a>
+  							<div class="fb-share-button" 
+								 data-href="asdaasd" 
+								 data-layout="button"
+								 data-size="large"
+								 data-mobile-iframe="true">
+								 <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Facebook</a>
+							</div>
+                        	<a href="//www.reddit.com/submit" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img src="//www.redditstatic.com/spreddit10.gif" alt="submit to reddit" border="0" /> </a>
                         	<p><a href="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}" target="_blank">Direck Link</a></p>
                         </div>
                     </div>

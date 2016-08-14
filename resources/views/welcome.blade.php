@@ -24,7 +24,7 @@
         <li><a href="https://github.com/munya98" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
     </ul>
     <div class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Latest<span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort By<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li><a href="{{ url('/?sort=latest')}}">Latest</a></li> <!--  -->
             <li><a href="{{ url('/?sort=old')}}">Oldest</a></li>

@@ -161,6 +161,18 @@ class ImagesController extends Controller
         $currentImage->save();
         return view('image')->with('image', $image)->with('comments', $comments);
     }
+    public function update(Image $image, Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3|max:25'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $image->display_filename = $request->input('name');
+        $image->category = $request->input('category');
+        $image->save();
+        return redirect()->back();
+    }
     /**
      * Delete the given image
      *

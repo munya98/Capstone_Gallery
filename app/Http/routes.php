@@ -36,6 +36,7 @@ Route::group(['prefix' => 'images'], function(){
 	Route::get('/upload', 'ImagesController@upload');
 	Route::post('/like/{image}', 'ImagesController@like_image');
 	Route::post('/upload', 'ImagesController@save_image');
+	Route::post('/update/{image}', 'ImagesController@update');
 	//Route::post('/rename', 'ImagesController@rename');////////////TEst
 	Route::post('/report', 'ImagesController@report');
 	Route::get('/{name?}', 'HomeController@view');
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'account'], function (){
 });
 
 Route::group(['prefix' => 'user'], function(){
+	Route::get('/password/reset', 'Auth\PasswordController@reset');
 	Route::get('/{user}', 'UserController@index');
 });
 Route::group(['prefix' => 'admin'], function(){
@@ -72,5 +74,8 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::get('/images', 'AdminController@images');
 	Route::get('/images/{image}', 'AdminController@view_image');
 	Route::get('/reports', 'AdminController@reports');
+	Route::post('update/{user}', 'AdminController@update_user');
+	Route::post('suspend/{user}', 'AdminController@suspend_user');
+	Route::post('reset/{user}', 'AdminController@reset_password');
 });
 

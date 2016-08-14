@@ -20,6 +20,16 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/owl.transitions.css')}}">
 </head>
 <body id="app-layout">
+<div id="fb-root"></div>
+<script type="text/javascript">
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
     <nav class = "navbar navbar-default">
         <div class = "containers">
             <div class="navbar-header">
@@ -33,7 +43,7 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">About</a></li>
+                <li><a href="{{ url('/about')}}">About</a></li>
                 <li><a href="{{url('/browse')}}">Browse</a></li>
                 <li><a href="{{ url('images/upload')}}">Upload</a></li> 
                 @if(Auth::guest())
@@ -78,7 +88,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.js"></script>
     <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
-    <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.js"></script>
     <script type="text/javascript" src = "{{ asset('js/app.js')}}"></script>
     <script type="text/javascript" src = "{{ asset('js/owl.carousel.min.js')}}"></script>
 </html>

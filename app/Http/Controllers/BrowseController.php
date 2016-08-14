@@ -31,8 +31,11 @@ class BrowseController extends Controller
             'suggest' => 'required|min:3'
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
-        return $request->input('suggest');
+        DB::table('category_suggestion')->insert([
+            'name' => $request->input('suggest')
+        ]);
+        return redirect()->back()->with('suggestion', 'Suggestion noted thank you');
     }
 }

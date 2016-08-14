@@ -63,7 +63,7 @@
             <div class="form-group{{ $errors->has('question') ? ' has-error' : '' }}">
                 <div class="col-md-4 col-md-offset-4">
                     <label for="question">Secret Question</label>
-                    <input type="text" class="custom-input" name="question" value="{{ old('question') }}">
+                    <input type="text" class="custom-input" name="question" value="{{ old('question') }}" placeholder="Create your own question or phrase...">
 
                     @if ($errors->has('question'))
                         <span class="help-block">

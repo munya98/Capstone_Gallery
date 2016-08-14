@@ -17,6 +17,9 @@
 					@if($errors->has('suggest'))
 						<p class = "error">{{ $errors->first() }}</p>
 					@endif
+					@if(session('suggestion'))
+						<p class = "success">{{ session('suggestion') }}</p>
+					@endif
 					<div class = "text-center">
 						<button class = "btn-custom text-center">Suggest</button>
 					</div>

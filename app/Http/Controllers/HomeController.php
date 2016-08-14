@@ -93,6 +93,7 @@ class HomeController extends Controller
         $categories = DB::table('categories')->inRandomOrder()
                                              ->take(13)
                                              ->get();
+        $allcategories = DB::table('categories')->get();
         $image = Image::where('name', '=', $name)->first();
         if (empty($image)) {
             abort(404);
@@ -114,6 +115,7 @@ class HomeController extends Controller
                                   ->with('owner', $owner)
                                   ->with('suggestions', $suggestions)
                                   ->with('categories', $categories)
-                                  ->with('likes', $likes);
+                                  ->with('likes', $likes)
+                                  ->with('allcategories', $allcategories);
     }
 }

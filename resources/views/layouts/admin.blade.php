@@ -29,7 +29,7 @@
 						<li><i class="fa fa-sign-out" aria-hidden="true"></i> <a href="{{ url('/logout')}}">Logout</a></li>
 					</ul>
 			</div>
-			<div class = "col-md-10" style="background-color: ">
+			<div class = "col-md-10 main-content" style="background-color: ">
 				<h2>@yield('title')</h2>
 				<hr>
 				@yield('content')

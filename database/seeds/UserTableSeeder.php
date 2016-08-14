@@ -97,5 +97,23 @@ class UserTableSeeder extends Seeder
         DB::table('categories')->insert([
             'name' => 'Wildlife'
         ]);
+        // DB::table('security_questions')->insert([
+        //     'question' => 'What was the name of your elementary / primary school?'
+        // ]);
+        // DB::table('security_questions')->insert([
+        //     'question' => 'In what city or town does your nearest sibling live?'
+        // ]);
+        // DB::table('security_questions')->insert([
+        //     'question' => 'Who is your favorite actor, musician, or artist?'
+        // ]);
+        // DB::table('security_questions')->insert([
+        //     'question' => 'What is your favorite movie?'
+        // ]);
+        // DB::table('security_questions')->insert([
+        //     'question' => 'In what city or town does your nearest sibling live?'
+        // ]);
+        // DB::table('security_questions')->insert([
+        //     'question' => 'In what city or town does your nearest sibling live?'
+        // ]);
     }
 }

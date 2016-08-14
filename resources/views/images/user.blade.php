@@ -8,8 +8,7 @@
 			</div>
 			<div class = "col-md-6">
 				<div class = "user-display-details" style = "margin-top: 0px;">
-					<p> {{ $user->username}} </p>
-					<p> Twitter: Instagram: Facebook: </p>
+					<h4> {{ $user->username}} </h4>
 					<p> {{ $img_count }} Image(s) | {{ $album_count}} Album(s)</p>
 					<p> Bio:</p>
 					<p> {{ $user->bio}}</p>
@@ -17,7 +16,6 @@
 			</div>
 			<div class = "row">
 				<div class="col-md-12">
-					<h5>Latest <i class="fa fa-caret-down" aria-hidden="true"></i></h5>
 						<div class = "grid">
 					        <div class = "grid-sizer col-md-4"></div>
 					        @foreach($images as $image)

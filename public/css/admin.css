@@ -4,6 +4,7 @@
 html, body {
 	font-family: 'Inconsolata';
 	background-color: #F7F4F3;
+	position: relative;
 }
 .green {
 	color: #00A676;
@@ -28,9 +29,15 @@ html, body {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .aside-menu {
-	height: 100vh;
+	height: 1080px;
+	width: 16.5%;
+	position: absolute;
 	background-color: #DB504A;
 	color: #D7FFF1;
+}
+.main-content {
+	position: relative;
+	float: right;
 }
 #aside-menu-list  {
 	list-style: none;
@@ -73,12 +80,18 @@ html, body {
 	display: inline-block;
 }
 .user-view-profile-button {
+	background-color: white;
 	display: block;
 	text-align: center;
-	height: 30px;
+	height: 40px;
 	width: 80%;
 	margin: 0 auto;
 	margin-bottom: 10px;
+	border: 2px solid #DB504A;
+	border-radius: 5px;
+}
+.user-view-profile-button:active, .user-view-profile-button:focus {
+	outline: none;
 }
 /* Masonry Grid Styling*/
 

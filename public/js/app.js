@@ -14,7 +14,9 @@ $(document).ready(function(){
     $("#image-share-button").click(function(){
         $("#share-image-modal").modal();
     });
-    
+    $("#image-update-button").click(function(){
+        $("#update-image-modal").modal();
+    });
     $('.dropdown-toggle').dropdown();
     //Album confirm delete
     $('#confirm-delete').submit(function(e){

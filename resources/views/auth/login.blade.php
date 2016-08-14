@@ -55,7 +55,8 @@
                         </div>
                         <div>
                             <div class = "col-md-4 col-md-offset-4"><br>
-                                <a href="{{ url('/password/reset') }}">Forgot Your Password?</a>
+                                <!-- <a href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
+                                 <a href="{{ url('user/password/reset') }}">Forgot Your Password?</a>
                             </div>
                         </div>
                     </form>
