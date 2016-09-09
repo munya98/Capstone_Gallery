@@ -37,7 +37,6 @@ Route::group(['prefix' => 'images'], function(){
 	Route::post('/like/{image}', 'ImagesController@like_image');
 	Route::post('/upload', 'ImagesController@save_image');
 	Route::post('/update/{image}', 'ImagesController@update');
-	//Route::post('/rename', 'ImagesController@rename');////////////TEst
 	Route::post('/report', 'ImagesController@report');
 	Route::get('/{name?}', 'HomeController@view');
 	Route::post('/comments/submit', 'ImagesController@submit_comment');
@@ -50,8 +49,8 @@ Route::get('/about', function(){
 
 Route::group(['prefix' => 'account'], function (){
 	Route::get('/', 'AccountController@index');
-	Route::get('/social', 'AccountController@social');
-	Route::post('/social', 'AccountController@social_update');
+	// Route::get('/social', 'AccountController@social');
+	// Route::post('/social', 'AccountController@social_update');
 	Route::get('/avatar', 'AccountController@avatar');
 	Route::post('/avatar', 'AccountController@update_avatar');
 	Route::get('/edit', 'AccountController@edit');
@@ -64,18 +63,26 @@ Route::group(['prefix' => 'account'], function (){
 
 Route::group(['prefix' => 'user'], function(){
 	Route::get('/password/reset', 'Auth\PasswordController@reset');
+	Route::post('/password/reset', 'Auth\PasswordController@validate_username');
+	Route::get('/password/reset/{user}', 'Auth\PasswordController@confirm_answer');
+	Route::post('/password/answer', 'Auth\PasswordController@validate_answer');
 	Route::get('/{user}', 'UserController@index');
+	Route::post('/password/update', 'Auth\PasswordController@update_password');
 });
 Route::group(['prefix' => 'admin'], function(){
 	Route::get('/', 'AdminController@index');
 	Route::get('/users', 'AdminController@users');
 	Route::get('/users/{user}', 'AdminController@view_user');
 	Route::get('/albums', 'AdminController@albums');
+	Route::get('/albums/{album}', 'AdminController@view_album');
 	Route::get('/images', 'AdminController@images');
 	Route::get('/images/{image}', 'AdminController@view_image');
 	Route::get('/reports', 'AdminController@reports');
-	Route::post('update/{user}', 'AdminController@update_user');
-	Route::post('suspend/{user}', 'AdminController@suspend_user');
-	Route::post('reset/{user}', 'AdminController@reset_password');
+	Route::post('/update/{user}', 'AdminController@update_user');
+	Route::post('/suspend/{user}', 'AdminController@suspend_user');
+	Route::post('/reset/{user}', 'AdminController@reset_password');
+	Route::post('/delete/image/{image}', 'AdminController@delete_image');
+	Route::get('/cat/add/{category}', 'AdminController@add_category');
+	Route::get('/cat/del/{category}', 'AdminController@del_category');
 });
 

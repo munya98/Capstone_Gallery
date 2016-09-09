@@ -4,6 +4,11 @@ $(document).ready(function(){
             e.preventDefault();
         }
     });
+    $('#image-delete').submit(function(e){
+        if (!confirm('Are you sure you want to delete this image ?')) {
+            e.preventDefault();
+        }
+    })
 	var $grid = $('.grid').masonry({
             itemSelector: '.grid-item',
             percentPosition: true,

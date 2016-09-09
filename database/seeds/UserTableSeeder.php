@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
             'name' => 'Lucian Marksman',
             'username' => 'Lucian',
             'question' => 'Who am i in this game',
-            'answer' => bcrypt('The Marksman'),
+            'answer' => 'The Marksman',
             'password' => bcrypt('njhorizon'),
             'active' => 1
         ]);
@@ -24,7 +24,7 @@ class UserTableSeeder extends Seeder
             'name' => 'Sheriff Kench',
             'username' => 'Jazzy',
             'question' => 'I shot the sheriff',
-            'answer' => bcrypt('did you tho'),
+            'answer' => 'did you tho',
             'password' => bcrypt('njhorizon'),
             'active' => 1
         ]);

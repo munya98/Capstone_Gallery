@@ -20,10 +20,13 @@ class UserController extends Controller
         if (empty($currentUser)) {
             abort(403);
         }
-    	$images = Image::where('user_id', '=', $currentUser->id)->where('permission', 'public')->simplePaginate(9);
+    	$images = Image::where('user_id', '=', $currentUser->id)->where('permission', 'public')->simplePaginate(30);
         $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
         $albumCount = Album::where('user_id', '=', $currentUser->id)->count();
-    	return view('images.user')->with('user', $currentUser)->with('images', $images)->with('img_count', $imageCount)->with('album_count', $albumCount);
+    	return view('images.user')->with('user', $currentUser)
+                                  ->with('images', $images)
+                                  ->with('img_count', $imageCount)
+                                  ->with('album_count', $albumCount);
     }
      //Get Image from Storage
     public function showAvatar($file){

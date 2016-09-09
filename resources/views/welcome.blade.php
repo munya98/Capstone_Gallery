@@ -37,7 +37,7 @@
             <div class = "grid-item col-md-4">
                 <div class = "grid-item-content">
                     <a href="{{url('/images/'. $image->name)}}">
-                        <img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
+                        <img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->thumbnail ])}}">
                     </a>
                 </div>
             </div>

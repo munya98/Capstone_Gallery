@@ -60,13 +60,13 @@ class AlbumsController extends Controller
         //Validate all of the user input
     	$validator = Validator::make($request->all(),[
     		'album-Title' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:20',
-            'album-Description' => 'max:200',
+            'album-Description' => 'max:255',
     		'album-Permission' => 'required'
     	], $messages);
 
         //Send back the error messages if an error did occur
     	if($validator->fails()){
-    		return redirect()->back()->withErrors($validator);
+    		return redirect()->back()->withErrors($validator)->withInput();
     	}
 
     	//Data required to create the folder
@@ -111,17 +111,17 @@ class AlbumsController extends Controller
         //Validate all of the user input
         $validator = Validator::make($request->all(),[
             'album-Title' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:20',
-            'album-Description' => 'max:50',
+            'album-Description' => 'max:255',
             'album-Permission' => 'required'
         ], $messages);
 
         //Send back the error messages if an error did occur
         if($validator->fails()){
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $currentAlbum = Album::find($album->album_id);
-
+        $images = Image::where('album_id', $album->album_id)->get();
         /*  If the user changes the original name, update the name in the database 
         *   and update the name of the album in Storage;
         */
@@ -131,6 +131,10 @@ class AlbumsController extends Controller
         
         $path = 'users/albums/' . Auth::user()->username . '/' . $request->input('album-Permission') . '/' . $request->input('album-Title');
         $currentAlbum->path = $path;
+        foreach ($images as $image) {
+            $image->permission = $request->input('album-Permission');
+            $image->save();
+        }
         if (Storage::disk('local')->exists($path)) {
             abort(409);
         }

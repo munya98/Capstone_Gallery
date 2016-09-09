@@ -20,16 +20,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/owl.transitions.css')}}">
 </head>
 <body id="app-layout">
-<div id="fb-root"></div>
-<script type="text/javascript">
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
     <nav class = "navbar navbar-default">
         <div class = "containers">
             <div class="navbar-header">
@@ -60,7 +50,7 @@
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         @role('Admin')
-                        <li><a href="{{ url('/admin')}}">Admin Panel</a></li>
+                        <li><a href="{{ url('/admin')}}"><i class="fa fa-user-plus" aria-hidden="true"></i> Admin Panel</a></li>
                         @endrole
                         <li><a href="{{ url('/account') }}"> <i class="fa fa-user" aria-hidden="true"></i> My Account</a></li>
                         <li><a href="{{ url('/albums')}}"> <i class="fa fa-folder-open" aria-hidden="true"></i> My Albums</a></li>
@@ -78,7 +68,6 @@
         <div class = "container">
         <hr>
             <p class = "text-right">Capstone 2016</p>
-            
         </div>
     </footer>
 </body>

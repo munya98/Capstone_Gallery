@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<script>window.twttr = (function(d, s, id) {
+<!-- <script>window.twttr = (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0],
     t = window.twttr || {};
   if (d.getElementById(id)) return t;
@@ -17,12 +17,14 @@
  
   return t;
 }(document, "script", "twitter-wjs"));
-</script>
+</script> -->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57b834e01f386c6b"></script>
 <div class = "container">
 	<div class = "row">
 		<div class = "col-md-10" id = "image-container">
-			<div >
-				<h3 class="brand-font">{{$image->display_filename}}</h3> 
+			<div id = "image-title">
+				<h3 class="brand-font">{{$image->display_filename}}</h3>
 			</div>
 			<img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
 			<div id = "upload-details">
@@ -36,36 +38,24 @@
 			</div>
 			<div id = "image-view-buttons">
 				@if(!Auth::guest())
-					<form method = "POST" action = "{{ url('/images/like/'. $image->image_id) }}">
+					<form id = "like-form" method = "POST" action = "{{ url('/images/like/'. $image->image_id) }}">
 						{{ csrf_field() }}
-						<button>
-							<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Like
+						<button style=" {{ $liked ? 'color:#32CD32;' : ' '}}">
+							<strong><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Like</strong>
 						</button>
 					</form>
-					<button id = "image-share-button"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
-					<button id = "image-report-button"><i class="fa fa-flag" aria-hidden="true"></i> Report</button>
+					<button id = "image-report-button"><strong><i class="fa fa-flag" aria-hidden="true"></i> Report</strong></button>
 					@if($image->user_id === Auth::user()->id)
-						<button id = "image-update-button"><span class="glyphicon glyphicon-save-file"></span> Update</button>
+						<button id = "image-update-button"><strong><span class="glyphicon glyphicon-save-file"></span> Update</strong></button>
 						<form  action = "{{ url('/images/purge/' . $image->image_id)}}" method = "POST" id = "image-delete">
 							{{ csrf_field() }}
 							{{ method_field('DELETE')}}
 							<button type = "submit">
-								<i class="fa fa-btn fa-trash"></i> Delete
+								<strong><i class="fa fa-btn fa-trash"></i> Delete</strong>
 							</button>
 						</form>
 					@endif
 				@endif
-			</div>
-			<hr>
-			<h4>More from {{$owner->username}}</h4>
-			<div id = "carousel-recommend">
-				@foreach($suggestions as $suggest)
-					<div class = "item">
-						<a href="{{ url('/images/' . $suggest->name)}}">
-							<img src="{{ route('image.serve', ['album_id' => $suggest->album_id, 'file' => $suggest->name ])}}">
-						</a>
-					</div>
-				@endforeach
 			</div>
 		</div>
 		<div class = "col-md-2" id = "image-details">
@@ -75,7 +65,7 @@
 			<h5  class = "text-right">Category: <a href="{{ url('/browse/' . $image->category)}}">{{$image->category}}</a></h5>
 			<h5  class = "text-right">Status: {{ $image->permission}}</h5>
 			<h5  class = "text-right">Mime/Type: {{ $image->mime}}</h5>
-			<h5  class = "text-right">Size: {{ $image->size / 1000000}} MB</h5>
+			<h5  class = "text-right">Size: {{ round($image->size / 1000000,2)}} MB</h5>
 			<h5  class = "text-right">Dimensions: {{ $image->width}} x {{ $image->height}}</h5>
 			<h5  class = "text-right">Uploaded At: {{ date('Y-m-d', strtotime($image->created_at))}}</h5>
 			<h5 class = "text-right"><a href="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">Full Image</a>
@@ -90,18 +80,32 @@
 		</div> 
 	</div>
 	<div class = "row">
+		<div class = "col-md-12">
+			<p>More from {{$owner->username}}</p>
+			<div id = "carousel-recommend">
+				@foreach($suggestions as $suggest)
+					<div class = "item">
+						<a href="{{ url('/images/' . $suggest->name)}}">
+							<img src="{{ route('image.serve', ['album_id' => $suggest->album_id, 'file' => $suggest->thumbnail ])}}">
+						</a>
+					</div>
+				@endforeach
+			</div>
+		</div>
+	</div>
+
+	<div class = "row">
 		<div class ="col-md-6">
 			<h3 class = "brand-font">Comments</h3>
-			<hr>
-			<table class = "table table-striped">
-				@foreach($comments as $comment)					
+			<table class = "table">
+				@for($i = 0; $i<= $comments->count() - 1; $i++)				
 					<tr>
 						<td>
-							<p class = "text-right">{{$comment->comment}}</p>
-							<p>By: User @ {{$comment->created_at}}</p>
+							<p class = "text-right">{{$comments[$i]->comment}}</p>
+							<p>By: <a href="{{ url('/user/'. $commenter[$i]->username)}}">{{ $commenter[$i]->username}}</a> on {{ $comments[$i]->created_at}}</p>
 						</td>
 					</tr>
-				@endforeach
+				@endfor
 				{{ $comments->links()}}
 			</table>
 
@@ -116,17 +120,17 @@
 				<div class = "form-group">
 					<label for = "user-comment">Comment as {{ Auth::user()->username}}</label>
 					<textarea class = "form-control" name = "user-comment"></textarea>
+                    @if ($errors->has('comment'))
+                        <span class="help-block">
+                            <strong class = "error">{{ $errors->first('comment') }}</strong>
+                        </span>
+                    @endif
 				</div>
 				<div class = "form-group">
 					<input class = "btn btn-default pull-right" type="submit" name="Submit" value = "Post Comment">
 				</div>
 			</form>
 			@endif
-		</div>
-	</div>
-	<div class ="row">
-		<div class ="col-md-">
-			
 		</div>
 	</div>
 	<!-- Modal -->
@@ -192,25 +196,25 @@
                             <input type="hidden" name="image" value = "{{$image->image_id}}" >
                                 <div class = "radio">
                                 	<label>
-                                		<input type="radio" name="report" value = "offensive">Offensive
+                                		<input type="radio" name="report" value = "Offensive Content">Offensive
                                 	</label>
                                 </div>
                                 <hr>
                                 <div class = "radio">
                                 	<label>
-                                		<input type="radio" name="report" value = "spam">Spam or Scam
+                                		<input type="radio" name="report" value = "Spam">Spam
                                 	</label>
                                 </div>
                                 <hr>
                                 <div class = "radio">
                                 	<label>
-                                		<input type="radio" name="report" value = "dmca">DMCA Legal Stuff
+                                		<input type="radio" name="report" value = "DMCA/Copyright">DMCA/Copyrighted Content
                                 	</label>
                                 </div>
                                 <hr>
                                 <div class = "radio">
                                 	<label>
-                                		<input type="radio" name="report" value = "nsfw">NSFW
+                                		<input type="radio" name="report" value = "NSFW/Adult Content">NSFW/Disturbing/Adult Content
                                 	</label>
                                 </div>
                                 <hr>
@@ -229,9 +233,9 @@
     </div>
     <!-- Modal Ends -->
     <!-- Modal -->
-    <div class ="modal fade" id = "share-image-modal" role = "dialog">
+    <!-- <div class ="modal fade" id = "share-image-modal" role = "dialog">
         <div class = "modal-dialog">
-            <!-- Content-->
+            
             <div class = "modal-content">
                 <div class = "modal-header">
                     <h4 class = "modal-title">Share</h4>
@@ -246,7 +250,7 @@
 								data-text = "shared test image"
 								data-hashtags = "test">
 								Tweet
-								<!-- <button class = "btn-custom">Tweet</button> -->
+								
   							</a>
   							<div class="fb-share-button" 
 								 data-href="asdaasd" 
@@ -265,7 +269,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Modal Ends -->
 
 </div>

@@ -16,11 +16,11 @@ class CreateImagesTable extends Migration
         Schema::create('images',function(Blueprint $table){
             $table->increments('image_id');
             $table->string('name');
-            $table->string('path');
             $table->string('permission');
             $table->string('category');
             $table->string('mime');
             $table->string('display_filename');
+            $table->string('thumbnail');
             $table->integer('height');
             $table->integer('width');
             $table->integer('size');

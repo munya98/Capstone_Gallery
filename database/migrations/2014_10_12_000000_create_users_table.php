@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('question');
             $table->string('answer');
             $table->string('password');
-            $table->text('bio');
+            $table->string('bio')->default('Bio is empty...');
             $table->string('avatar')->default('default.jpg');
             $table->boolean('active');
             $table->rememberToken();

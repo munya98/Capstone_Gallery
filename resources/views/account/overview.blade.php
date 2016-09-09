@@ -10,7 +10,7 @@
 				<ul class = "list-styles">
 					<li><a href="{{url('/account')}}" > Overview </a></li>
 					<li><a href="{{url('/account/avatar')}}" > Change Avatar </a></li>
-					<li><a href="{{url('/account/social')}}"> Social </a></li>
+					<!-- <li><a href="{{url('/account/social')}}"> Social </a></li> -->
 					<li><a href="{{url('/account/edit')}}" > Edit </a></li>
 					<li><a href="{{url('/account/password')}}" > Update Password </a></li>
 					<li><a href="{{url('/account/purge')}}"> Delete Account</a></li>

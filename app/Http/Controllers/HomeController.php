@@ -11,6 +11,7 @@ use App\Comments;
 use Image as Img;
 use Validator;
 use DB;
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -32,7 +33,7 @@ class HomeController extends Controller
     {   
         $imagesPagination = Image::where('permission', 'public')
                                    ->OrderBy('created_at', 'desc')
-                                   ->paginate(25);
+                                   ->paginate(30);
         // $images = Image::where('permission', 'public')->get();
         // $owners = array();
         // foreach ($images as $img) {
@@ -44,22 +45,22 @@ class HomeController extends Controller
             case 'latest':
               $imagesPagination = Image::where('permission', 'public')
                                      ->OrderBy('created_at', 'desc')
-                                     ->paginate(25);
+                                     ->paginate(30);
             break;
             case 'old':
               $imagesPagination = Image::where('permission', 'public')
                                      ->OrderBy('created_at', 'asc')
-                                     ->paginate(25);
+                                     ->paginate(30);
             break;
             case 'popular':
               $imagesPagination = Image::where('permission', 'public')
                                      ->OrderBy('views', 'desc')
-                                     ->paginate(25);
+                                     ->paginate(30);
             break;
             default:
               $imagesPagination = Image::where('permission', 'public')
                                    ->OrderBy('created_at', 'desc')
-                                   ->paginate(25);
+                                   ->paginate(30);
             break;
           }
         }
@@ -85,7 +86,7 @@ class HomeController extends Controller
               return redirect()->back()->withErrors($validator);
           }
           $term = $request->input('search');
-          $images = Image::where('display_filename', 'LIKE', "%$term%")->get();
+          $images = Image::where('display_filename', 'LIKE', "%$term%")->simplePaginate(30);
           return view('search')->with('images', $images)->with('term', $term);
         }
     }
@@ -95,19 +96,37 @@ class HomeController extends Controller
                                              ->get();
         $allcategories = DB::table('categories')->get();
         $image = Image::where('name', '=', $name)->first();
+        $liked = false;
+        if (!(Auth::guest())) {
+          $like = DB::table('likes')->where('image_id', $image->image_id)
+                                  ->where('user_id', Auth::user()->id)->first();
+          if (!empty($like)) {
+            $liked = true;
+          }
+        }
         if (empty($image)) {
             abort(404);
         }
-        $comments = Comments::where('image_id', '=', $image->image_id)->simplePaginate(5);
+        $comments = Comments::where('image_id', '=', $image->image_id)->simplePaginate(20);
+        $commenter = array();
+        foreach ($comments as $c) {
+          $user = User::find($c->user_id);
+          array_push($commenter, $user);
+        }
+        // $owners = array();
+        // foreach ($images as $img) {
+        //     $owner = User::find($img->user_id);
+        //     array_push($imagesPagination, $owner);
+        // }
         $currentImage = Image::find($image->image_id);
         $currentImage->views = $currentImage->views + 1; 
         $currentImage->save();
         $owner = User::find($currentImage->user_id);
-        $suggestions = DB::table('images')->select('name', 'album_id')
+        $suggestions = DB::table('images')->select('thumbnail', 'album_id', 'name')
                                           ->where('user_id', $currentImage->user_id)
                                           ->where('permission', 'public')
                                           ->inRandomOrder()
-                                          ->take(8)
+                                          ->take(15)
                                           ->get();
         $likes = DB::table('likes')->where('image_id', $image->image_id)->count();
         return view('images.view')->with('image', $image)
@@ -116,6 +135,8 @@ class HomeController extends Controller
                                   ->with('suggestions', $suggestions)
                                   ->with('categories', $categories)
                                   ->with('likes', $likes)
+                                  ->with('commenter', $commenter)
+                                  ->with('liked', $liked)
                                   ->with('allcategories', $allcategories);
     }
 }

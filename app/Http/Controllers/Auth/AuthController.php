@@ -6,6 +6,7 @@ use App\User;
 use Validator;
 use Storage;
 use Auth;
+use Hash;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -43,6 +44,31 @@ class AuthController extends Controller
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
+
+    public function login(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|exists:users,username',
+            'password' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+        else{
+            $user = User::where('username', $request->input('username'))->first();
+            if (Hash::check($request->input('password'), $user->password)) {
+                if (Auth::attempt(['username' => $user->username, 'password' => $request->input('password'), 'active' => $user->active])) {
+                    return redirect('/');
+                }else {
+                    session()->flash('account-status', 'Your account is suspended');
+                    return redirect()->back();
+                }
+            }
+            session()->flash('status', 'Username or password is incorrect');
+            return redirect()->back();
+        }
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -76,7 +102,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'username' => $data['username'],
             'question' => $data['question'],
-            'answer' => $data['answer'],
+            'answer' => bcrypt($data['answer']),
             'password' => bcrypt($data['password']),
             'active' => 1, 
         ]);

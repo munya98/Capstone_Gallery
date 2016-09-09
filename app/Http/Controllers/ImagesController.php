@@ -80,20 +80,21 @@ class ImagesController extends Controller
                     $width = Img::make($userImage)->width();
                     Storage::put($currentAlbum->path . '/' . $filename, $image->stream());
                     Storage::put('users/albums/albums_thumbnail/' . $albumThumbnailName, $albumThumbnail->stream());
+                    $thumbnailName = 'thumbnail' . $filename;
+                    $thumbnail = Img::make($userImage)->resize(round($width * 0.33), round($height * 0.33));
+                    Storage::put($currentAlbum->path . '/' . $thumbnailName, $thumbnail->stream());
                     $albumThumbnail->destroy();
                     $image->destroy();
-                    // $thumbnailName = $request->input('name') . '_thumbnail' . '.' . $userImage->getClientOriginalExtension();
-                    // $thumbnail = Img::make($userImage)->resize(round($width * 0.33), round($height * 0.33));
-                    // Storage::put($currentAlbum->path . '/' . $thumbnailName, $thumbnail->stream());
-
+                    
                     $currentAlbum->thumbnail = $albumThumbnailName;
                     $currentAlbum->save();
                     $album->image()->create([
                         'name' => $filename,
-                        'path' => $currentAlbum->path,
+                        //'path' => $currentAlbum->path,
                         'permission' => $currentAlbum->permission,
                         'height' => $height,
                         'width' => $width,
+                        'thumbnail' => $thumbnailName,
                         'category' => $request->input('category'),
                         'mime' => $userImage->getClientMimeType(),
                         'display_filename' => $request->input('name'), //Might Need Fixing
@@ -136,7 +137,7 @@ class ImagesController extends Controller
         ]);
         return redirect()->back();
     }
-    public function like_image(Request $request, Image $image){
+    public function like_image(Image $image){
         $like = DB::table('likes')->where('image_id', $image->image_id)
                           ->where('user_id', Auth::user()->id)
                           ->get();
@@ -176,21 +177,23 @@ class ImagesController extends Controller
     /**
      * Delete the given image
      *
-     * @param  Request  $request
-     * @param  Task  $task
+     * @param  Image $image
      * @return Response
     */
-    public function delete(Request $reqeust, Image $image){
+    public function delete(Image $image){
         $this->authorize('destroy', $image);
+        //$this->authorize('destroy', $image);
         $album = Album::find($image->album_id);
-        if (Storage::disk('local')->exists($image->path . '/' . $image->name)) {
-            Storage::delete($image->path . '/' . $image->name);
+        if (Storage::disk('local')->exists($album->path . '/' . $image->name)) {
+            Storage::delete($album->path . '/' . $image->name);
             $image->delete();
             //Image::where('album_id', $album->album_id)->delete();
             return redirect('albums/' . $album->name);
         }
-
         abort(404);
     }
 }
 
+// $projects = [
+//     'Capstone' => 'Link'
+// ];

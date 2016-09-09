@@ -169,9 +169,9 @@ class AccountController extends Controller
     public function purge(){
     	return view('account.purge');
     }
-    public function social(){
-        return view('account.social');
-    }
+    // public function social(){
+    //     return view('account.social');
+    // }
     /**
     *   User_id needs to be unique
     *   if exists update update otherwise insert

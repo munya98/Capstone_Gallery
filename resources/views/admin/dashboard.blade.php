@@ -47,11 +47,15 @@
 			  <div class="carousel-inner" role="listbox">
 			  	
 			    <div class="item active">
-			      <img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $latestImage->album_id, 'file' => $latestImage->name ])}}">
+			      <a href="{{ url('/admin/images/'. $latestImage->image_id )}}">
+			      	<img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $latestImage->album_id, 'file' => $latestImage->name ])}}">
+			      </a>
 			    </div>
 			    @foreach($recentImages as $image)
 					<div class ="item">
-						<img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
+						<a href="{{ url('/admin/images/'. $image->image_id)}}">
+							<img class = "img-responsive" src="{{ route('image.serve', ['album_id' => $image->album_id, 'file' => $image->name ])}}">
+						</a>
 					</div>
 				@endforeach
 			  </div>

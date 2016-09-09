@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <p>This image gallery blah blah blah is my Capstone Project/Fun Project/First Laravel Work</p>
+    <p>Capstone Project</p>
 
     <p>So what I used is listed below</p>
     <ul>
