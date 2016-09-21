@@ -42,15 +42,30 @@
                                 <div class = "form-group">
                                     <label for = "album-Title">Album Title</label>
                                     <input class = "custom-input" type="text" name="album-Title" value = "{{ old('album-Title')}}">
+                                    @if($errors->has('album-Title'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('album-Title') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <label for = "album-Description">Description</label>
                                     <textarea class = "custom-textarea" type="textarea" name="album-Description" rows = "4"></textarea>
+                                    @if($errors->has('album-Description'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('album-Description') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <label>Permission</label><br>
                                     <label class = "radio-inline"><input type="radio" name="album-Permission" value="public">Public</label>
                                     <label class = "radio-inline"><input type="radio" name="album-Permission" value="private">Private</label>
+                                    @if($errors->has('album-Permission'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('album-Permission') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <button class = "btn-custom" type="submit" name="submit"><i class="fa fa-plus" aria-hidden="true"></i> Create Album</button>

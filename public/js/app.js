@@ -49,32 +49,54 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    // $('#sort-latest').click(function(e){
-    //     //console.log(x);
-    //     // $.ajax({
-    //     //     url: '/images/report',
-    //     //     dataType: 'json',
-    //     //     type: 'post',
-    //     //     data: {name : x},
-    //     //     success : function(data) {
-    //     //         console.log("dasdas");
-    //     //     }
-    //     // });
-    //     //console.log('asdaada');
-    //     // var grid = '<div class = "grid">';
-    //     // grid += '<div class = "grid-sizer col-md-4"></div>';
-    //     //e.preventDefault();
-    //     $.get('/',{'sort' : 'latest'} , function(data){
-    //         console.log(data['data']);
-    //         for (var i = 0; i < data['data'].length; i++) {
-    //             // grid += '<div class = "grid-item col-md-4">';
-    //             // grid += '<div class = "grid-item-content">';
-    //             // grid += ''
-    //             //$('.grid-item-content>a').attr('href', "/images/" + data['data'][i]['name']);
-    //             console.log(data['data'][i]['category']);
-    //         }
+    $('#form-report').submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url: '/images/report',
+            dataType: 'json',
+            method: 'post',
+            data: $(this).serializeArray()
+        }).done(function(data){
+            if(typeof(data['error']) === 'undefined'){
+                $('#error-report').html(data['success']).attr('class', 'success');
+            }
+            else {
+                $('#error-report').html(data['error']).attr('class', 'error');
+            }
+            console.log(data);
+        });
+    });
+    $('#like-form').submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            dataType: 'json',
+            method: 'POST',
+            data: $(this).serializeArray()
+        }).done(function(data){
+            console.log(data);
+            if(data['liked'] == true){
+                $('#liked-button').addClass('liked');
+            }else{
+                $('#liked-button').removeClass('liked');
+            }
+            $('#likes-value').html(data['likes']);
+        });
+    });
+    // $('#submit-comment').submit(function(e){
+    //     e.preventDefault();
+    //     $.ajax({
+    //         url: $(this).attr('action'),
+    //         dataType: 'json',
+    //         method: 'POST',
+    //         data: $(this).serializeArray()
+    //     }).done(function(data){
+    //         console.log(data);
     //     });
-    // });
+    // })
+    
     var $grid = $('.grid').masonry({
             itemSelector: '.grid-item',
             percentPosition: true,

@@ -76,15 +76,30 @@
                                 <div class = "form-group">
                                     <label for = "album-Title">Album Title</label>
                                     <input type="text" name="album-Title" value = "{{$album->name}}" class = "custom-input">
+                                    @if($errors->has('album-Title'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('album-Title') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <label for = "album-Description">Description</label>
                                     <textarea type="textarea" name="album-Description" class = "custom-textarea" rows = "4" value = "{{ old('album-Description')}}"></textarea>
+                                    @if($errors->has('album-Description'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('album-Description') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <label>Permission</label><br>
                                     <label class = "radio-inline"><input type="radio" name="album-Permission" value="public">Public</label>
                                     <label class = "radio-inline"><input type="radio" name="album-Permission" value="private">Private</label>
+                                    @if($errors->has('album-Permission'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('album-Permission') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <button class = "btn-custom" type="submit" name="submit"><span class="glyphicon glyphicon-floppy-open"></span> Update</button>
@@ -117,14 +132,29 @@
                                 <div class = "form-group">
                                     <label for = "name">Name</label>
                                     <input type="text" name="name" class = "custom-input">
+                                    @if($errors->has('name'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('name') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <label for = "image">Upload Image</label>
                                     <input type="file" name="image[]" class = "custom-input file" multiple>
+                                    @if($errors->has('image'.'.' . 0))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('image'.'.' . 0) }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <label for = "album">Album Name</label>
                                     <input type="text" name="album" value = "{{ $album->name }}" readonly class = "custom-input">
+                                    @if($errors->has('album'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('album') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <label for = "category">Category</label>
@@ -135,6 +165,11 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @if($errors->has('category'))
+                                        <span class="help-block">
+                                            <strong class = "error">{{ $errors->first('category') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class = "form-group">
                                     <button type = "submit" name = "submit" class = "btn-custom"><i class="fa fa-upload" aria-hidden="true"></i> Upload</button>

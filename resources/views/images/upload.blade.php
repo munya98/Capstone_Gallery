@@ -3,6 +3,9 @@
 @section('content')
 	<div class = "container">
 	<div class = "row">
+		@if(Session::has('status'))
+			<h4>{{Session::get('status')}}</h4>
+		@endif
 		<div class = "col-md-4 col-md-offset-4">
 			<form enctype="multipart/form-data" method = "POST" action = "{{ url('/images/upload')}}"> 
 			{!! csrf_field() !!}
@@ -17,9 +20,11 @@
 				<label for = "image">Upload Image</label>
 				<input type="file" name="image[]" class = "{{ $errors->has('image') ? 'error' : ''}}" multiple>
 			</div>
-			@if($errors->has('image'))
-				<strong class = "error">{{ $errors->first('image')}}</strong>
-			@endif
+			@if($errors->has('image'.'.' . 0))
+                <span class="help-block">
+                    <strong class = "error">{{ $errors->first('image'.'.' . 0) }}</strong>
+                </span>
+            @endif
 			<div class = "form-group">
 				<label for = "album">Album Name</label>
 				<select name = "album" class = "custom-input">

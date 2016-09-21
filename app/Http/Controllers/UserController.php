@@ -21,8 +21,8 @@ class UserController extends Controller
             abort(403);
         }
     	$images = Image::where('user_id', '=', $currentUser->id)->where('permission', 'public')->simplePaginate(30);
-        $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
-        $albumCount = Album::where('user_id', '=', $currentUser->id)->count();
+      $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
+      $albumCount = Album::where('user_id', '=', $currentUser->id)->count();
     	return view('images.user')->with('user', $currentUser)
                                   ->with('images', $images)
                                   ->with('img_count', $imageCount)
@@ -32,7 +32,7 @@ class UserController extends Controller
     public function showAvatar($file){
     	//Storage::setVisibility('avatars/default.jpg', 'private');
     	$f = Storage::get('avatars/'. $file);
-		return (new Response($f, 200))
+		  return (new Response($f, 200))
                   ->header('Content-Type', 'image/jpeg');
     }
 }

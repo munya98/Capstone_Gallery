@@ -97,6 +97,9 @@ class HomeController extends Controller
         $allcategories = DB::table('categories')->get();
         $image = Image::where('name', '=', $name)->first();
         $liked = false;
+        if (empty($image)) {
+            abort(404);
+        }
         if (!(Auth::guest())) {
           $like = DB::table('likes')->where('image_id', $image->image_id)
                                   ->where('user_id', Auth::user()->id)->first();
@@ -104,10 +107,7 @@ class HomeController extends Controller
             $liked = true;
           }
         }
-        if (empty($image)) {
-            abort(404);
-        }
-        $comments = Comments::where('image_id', '=', $image->image_id)->simplePaginate(20);
+        $comments = Comments::where('image_id', '=', $image->image_id)->simplePaginate(10);
         $commenter = array();
         foreach ($comments as $c) {
           $user = User::find($c->user_id);
@@ -122,6 +122,9 @@ class HomeController extends Controller
         $currentImage->views = $currentImage->views + 1; 
         $currentImage->save();
         $owner = User::find($currentImage->user_id);
+        $owner_images = Image::where('user_id', $owner->id)
+                                    ->where('permission', 'public')
+                                    ->count();
         $suggestions = DB::table('images')->select('thumbnail', 'album_id', 'name')
                                           ->where('user_id', $currentImage->user_id)
                                           ->where('permission', 'public')
@@ -132,6 +135,7 @@ class HomeController extends Controller
         return view('images.view')->with('image', $image)
                                   ->with('comments', $comments)
                                   ->with('owner', $owner)
+                                  ->with('owner_images',$owner_images)
                                   ->with('suggestions', $suggestions)
                                   ->with('categories', $categories)
                                   ->with('likes', $likes)

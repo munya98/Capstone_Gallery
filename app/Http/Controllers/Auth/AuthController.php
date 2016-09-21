@@ -33,7 +33,7 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
-    protected $username = 'username';
+    //protected $username = 'username';
 
     /**
      * Create a new authentication controller instance.
@@ -45,6 +45,10 @@ class AuthController extends Controller
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
+    /**
+    * Manually login a user
+    *
+    */
     public function login(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -59,7 +63,7 @@ class AuthController extends Controller
             $user = User::where('username', $request->input('username'))->first();
             if (Hash::check($request->input('password'), $user->password)) {
                 if (Auth::attempt(['username' => $user->username, 'password' => $request->input('password'), 'active' => $user->active])) {
-                    return redirect('/');
+                    return redirect()->back();
                 }else {
                     session()->flash('account-status', 'Your account is suspended');
                     return redirect()->back();
@@ -102,7 +106,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'username' => $data['username'],
             'question' => $data['question'],
-            'answer' => bcrypt($data['answer']),
+            'answer' => $data['answer'],
             'password' => bcrypt($data['password']),
             'active' => 1, 
         ]);

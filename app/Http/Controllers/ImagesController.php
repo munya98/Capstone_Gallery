@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Input;
 use Image as Img;
 use App\Http\Requests;
 use Validator;
@@ -14,7 +15,6 @@ use App\Comments;
 use Auth;
 use DB;
 use Storage;
-
 
 class ImagesController extends Controller
 {
@@ -57,7 +57,7 @@ class ImagesController extends Controller
         ];
         $images = count($request->input('image'));
         foreach (range(0, $images) as $image) {
-            $rules['image.' . $image] = 'required|image|max:5000';
+            $rules['image.' . $image] = 'required|image|max:1024';
         }
     	$validator = Validator::make($request->all(), $rules);
     	if ($validator->fails()) {
@@ -72,7 +72,7 @@ class ImagesController extends Controller
     		if ($request->hasFile('image')) {
     			$userImages = $request->file('image');
                 foreach($userImages as $userImage){
-                    $filename = uniqid(). '.' . $userImage->getClientOriginalExtension();
+                    $filename = uniqid(rand(), true). '.' . $userImage->getClientOriginalExtension();
                     $albumThumbnailName = Auth::user()->username . str_replace(' ', '', $currentAlbum->name) . '.' . $userImage->getClientOriginalExtension();
                     $albumThumbnail = Img::make($userImage)->resize(592, 293);
                     $image = Img::make($userImage);
@@ -81,7 +81,7 @@ class ImagesController extends Controller
                     Storage::put($currentAlbum->path . '/' . $filename, $image->stream());
                     Storage::put('users/albums/albums_thumbnail/' . $albumThumbnailName, $albumThumbnail->stream());
                     $thumbnailName = 'thumbnail' . $filename;
-                    $thumbnail = Img::make($userImage)->resize(round($width * 0.33), round($height * 0.33));
+                    $thumbnail = Img::make($userImage)->resize(round($width * 0.30), round($height * 0.30));
                     Storage::put($currentAlbum->path . '/' . $thumbnailName, $thumbnail->stream());
                     $albumThumbnail->destroy();
                     $image->destroy();
@@ -104,6 +104,7 @@ class ImagesController extends Controller
 
                 }
     		}
+            session()->flash('status', 'Image Was successfully uploaded');
     		return redirect()->back();
     	}
     }
@@ -113,29 +114,26 @@ class ImagesController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return response()->json(['error' => 'Please select and option'], 200);
         }
         Reports::create([
             'reason' => $request->input('report'),
             'image_id' => $request->input('image')
         ]);
-        session()->flash('status', 'Image was successfully reported');
-        return redirect()->back();
-    }
-    public function submit_comment(Request $request){
-        $validator = Validator::make($request->all(), [
-            'user-comment' => 'required|min:4|max:50'
-        ]);
+        return response()->json(['success' => 'Image was successfully reported'], 200);
+        // $validator = Validator::make($request->all(), [
+        //     'report' => 'required'
+        // ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
-        $comment = Comments::create([
-            'comment' => $request->input('user-comment'),
-            'image_id'=> $request->input('id'),
-            'user_id' => Auth::user()->id,
-        ]);
-        return redirect()->back();
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator);
+        // }
+        // Reports::create([
+        //     'reason' => $request->input('report'),
+        //     'image_id' => $request->input('image')
+        // ]);
+        // session()->flash('status', 'Image was successfully reported');
+        // return redirect()->back();
     }
     public function like_image(Image $image){
         $like = DB::table('likes')->where('image_id', $image->image_id)
@@ -152,7 +150,16 @@ class ImagesController extends Controller
                 'user_id' => Auth::user()->id,
             ]);
         }
-        return redirect()->back();
+        $liked = false;
+        if (!(Auth::guest())) {
+          $like = DB::table('likes')->where('image_id', $image->image_id)
+                                  ->where('user_id', Auth::user()->id)->first();
+          if (!empty($like)) {
+            $liked = true;
+          }
+        }
+        $likes = DB::table('likes')->where('image_id', $image->image_id)->count();
+        return response()->json(['liked' => $liked, 'likes' => $likes]);
     }
     public function view($name){
         $image = Image::where('name', '=', $name)->first();
@@ -193,7 +200,3 @@ class ImagesController extends Controller
         abort(404);
     }
 }
-
-// $projects = [
-//     'Capstone' => 'Link'
-// ];

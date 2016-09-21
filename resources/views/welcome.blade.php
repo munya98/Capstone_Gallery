@@ -11,20 +11,22 @@
             <form method = "get" action = "{{ url('/search')}}">
                 <div class = "form-group">
                     <input class = "search-input" type="text" name="search" placeholder="Search...">
-                    @if(count($errors) > 0)
-                        <p>{{ $errors->first() }}</p>
+                    @if($errors->has('search'))
+                        <span class="help-block">
+                            <strong class = "error">{{ $errors->first('search') }}</strong>
+                        </span>
                     @endif
                 </div>
             </form>
         </div>
     </div><br>
     <ul class = "social-welcome">
-        <li><a href="#"><i class="fa fa-twitter" target = "_blank" aria-hidden="true"></i> Twitter</a></li>
-        <li><a href="#"><i class="fa fa-facebook-square" target="_blank" aria-hidden="true"></i> Facebook</a></li>
-        <li><a href="https://github.com/munya98" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
+        <!-- <li><a href="#"><i class="fa fa-twitter" target = "_blank" aria-hidden="true"></i> Twitter</a></li> -->
+        <!-- <li><a href="#"><i class="fa fa-facebook-square" target="_blank" aria-hidden="true"></i> Facebook</a></li> -->
+        <li><a href="#" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
     </ul>
     <div class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort By<span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black;">Sort By<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li><a href="{{ url('/?sort=latest')}}">Latest</a></li> <!--  -->
             <li><a href="{{ url('/?sort=old')}}">Oldest</a></li>

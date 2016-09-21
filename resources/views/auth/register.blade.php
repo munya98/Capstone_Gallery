@@ -78,9 +78,9 @@
                     <label for = "answer">Secret Answer</label>
                     <input type="text" class="custom-input" name="answer" value="{{ old('answer') }}">
 
-                    @if ($errors->has('secretanswer'))
+                    @if ($errors->has('answer'))
                         <span class="help-block">
-                            <strong class = "error">{{ $errors->first('secretanswer') }}</strong>
+                            <strong class = "error">{{ $errors->first('answer') }}</strong>
                         </span>
                     @endif
                 </div>

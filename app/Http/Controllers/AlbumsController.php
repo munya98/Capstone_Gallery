@@ -59,8 +59,8 @@ class AlbumsController extends Controller
         ];
         //Validate all of the user input
     	$validator = Validator::make($request->all(),[
-    		'album-Title' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:20',
-            'album-Description' => 'max:255',
+    		'album-Title' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|min:3|max:20',
+            'album-Description' => 'min:20|max:255',
     		'album-Permission' => 'required'
     	], $messages);
 
@@ -110,8 +110,8 @@ class AlbumsController extends Controller
         ];
         //Validate all of the user input
         $validator = Validator::make($request->all(),[
-            'album-Title' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:20',
-            'album-Description' => 'max:255',
+            'album-Title' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|min:3|max:20',
+            'album-Description' => 'min:3|max:255',
             'album-Permission' => 'required'
         ], $messages);
 

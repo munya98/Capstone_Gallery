@@ -24,7 +24,11 @@
 				<td><a href="{{ url('/admin/users/' . $user->id)}}">View</a></td>
 				<td>{{ $user->name}}</td>
 				<td>{{ $user->username}}</td>
-				<td>{{ $user->active}}</td>
+				@if($user->active == 1)
+					<td>Active</td>
+				@else
+					<td>Suspended</td>
+				@endif
 				<td>{{ $user->created_at}}</td>
 				<td>{{ $user->updated_at }}</td>				
 			</tr>

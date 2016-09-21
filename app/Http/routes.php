@@ -39,7 +39,8 @@ Route::group(['prefix' => 'images'], function(){
 	Route::post('/update/{image}', 'ImagesController@update');
 	Route::post('/report', 'ImagesController@report');
 	Route::get('/{name?}', 'HomeController@view');
-	Route::post('/comments/submit', 'ImagesController@submit_comment');
+	Route::post('/comments/submit', 'CommentsController@submit_comment');
+	Route::post('/comments/delete/{comment}', 'CommentsController@delete_comment');
 	Route::delete('/purge/{image}', 'ImagesController@delete');
 });
 
