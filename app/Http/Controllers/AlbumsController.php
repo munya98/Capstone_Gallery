@@ -27,11 +27,6 @@ class AlbumsController extends Controller
     public function index(Request $request){
     	$currentUser = Auth::user()->id;
     	$albums = Album::where('user_id', $currentUser)->get();
-        // if (Auth::user()->active == 0) {
-        //     Auth::logout();
-        //     session()->flash('status', 'Your account is suspended');
-        //     return redirect('/');
-        // }
     	return view('albums.list')->with('albums', $albums);
     }
     /** 
@@ -40,7 +35,7 @@ class AlbumsController extends Controller
     * @return An image as a HTTP response 
     */
     public function showThumbnail($file){
-    	$thumbnail = Storage::get('users/albums/albums_thumbnail/' . $file);
+    	$thumbnail = Storage::get('users/albums_thumbnail/' . $file);
     	return (new Response($thumbnail, 200))->header('Content-Type', 'image/jpeg');
     }
 
@@ -144,10 +139,8 @@ class AlbumsController extends Controller
     }
     /**
     *   Display the requested album
-    *   @param 
-    *   @return 
-    *   or
-    *   @return 
+    *   @param $albumName - name of the album
+    *   @return view with the album details and images
     */
     public function displayAlbum($albumName){
         $categories = DB::table('categories')->get();
@@ -161,7 +154,8 @@ class AlbumsController extends Controller
 
     /** 
     *   Delete an album
-    *   @param $request
+    *   @param $request @param $album - id of the album
+    *   @return redirect to /albums  page
     */
     public function purge(Request $request, Album $album){
         $this->authorize('purge', $album);

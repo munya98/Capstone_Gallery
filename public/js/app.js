@@ -53,7 +53,7 @@ $(document).ready(function(){
         e.preventDefault();
 
         $.ajax({
-            url: '/images/report',
+            url: 'report',
             dataType: 'json',
             method: 'post',
             data: $(this).serializeArray()
@@ -84,19 +84,7 @@ $(document).ready(function(){
             }
             $('#likes-value').html(data['likes']);
         });
-    });
-    // $('#submit-comment').submit(function(e){
-    //     e.preventDefault();
-    //     $.ajax({
-    //         url: $(this).attr('action'),
-    //         dataType: 'json',
-    //         method: 'POST',
-    //         data: $(this).serializeArray()
-    //     }).done(function(data){
-    //         console.log(data);
-    //     });
-    // })
-    
+    });  
     var $grid = $('.grid').masonry({
             itemSelector: '.grid-item',
             percentPosition: true,

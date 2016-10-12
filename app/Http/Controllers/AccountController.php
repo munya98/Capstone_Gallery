@@ -164,28 +164,18 @@ class AccountController extends Controller
     }
     /**
     *   Delete/Deactivate Account
-    *   @return 
+    *   @return view page for account purge
     */
     public function purge(){
     	return view('account.purge');
     }
-    // public function social(){
-    //     return view('account.social');
-    // }
     /**
-    *   User_id needs to be unique
-    *   if exists update update otherwise insert
-    *
+    *   Delete/Deactivate Account
+    *   @param $user - User id 
+    *   @return redirect to home page
+    *   or
+    *   @return error message
     */
-    public function social_update(Request $request){
-        DB::table('social')->insert([
-            'twitter' => $request->input('twitter'),
-            'instagram' => $request->input('instagram'),
-            'facebook' => $request->input('facebook'),
-            'user_id' => Auth::user()->id,
-        ]);
-        return redirect()->back();
-    }
     public function delete(Request $request, User $user) {
         $account = User::find($user->id);
         //Check if record passed matches the currently logged in user

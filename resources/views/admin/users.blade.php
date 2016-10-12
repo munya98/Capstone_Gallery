@@ -7,10 +7,10 @@
 	<div class = "col-md-12">
 		<form>
 			<div class = "form-group">
-				<input class = "form-control" type="text" name="search" placeholder="Search...">
+				<input id = "admin-user-search" class = "form-control" type="text" name="search" placeholder="Search...">
 			</div>
 		</form>
-		<table class = "table table-striped text-right">
+		<table class = "table table-striped text-right" id = "users-table">
 			<tr>
 				<th></th>
 				<th class = "text-right">Name</th>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Well Chief.</title>
+        <title>Oh Snap.</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -40,7 +40,8 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">OOOPS This already exists</div>
+                <div class = "title text-center">404</div>
+                <div class="title">The page are looking for is not available</div>
             </div>
         </div>
     </body>

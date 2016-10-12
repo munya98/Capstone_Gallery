@@ -6,12 +6,17 @@
 	<div class = "row">
 		<div class = "col-md-4">
 			<h4>Categories</h4>
-			<table class = "table">
-				<tr>
-					<th>Delete</th>
+			<table class = "table text-center">
+				<tr class = "text-center">
 					<th>ID</th>
 					<th>Name</th>
 				</tr>
+				@foreach($categories as $category)
+				<tr class ="text-center">
+					<td>{{ $category->category_id}}</td>
+					<th>{{ $category->name}}</th>
+				</tr>
+				@endforeach
 			</table>
 		</div>
 		<div class = "col-md-4">

@@ -81,14 +81,6 @@ div.comment-details > p.comment-points{
 		display: block;
 	}
 }	
-/*figure, .polaroid {
-	padding: 6px 8px 10px 8px; 
-	background: white;
-	background-color: white;
-	-webkit-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
-	-moz-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
-	box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
-}*/
 #carousel-recommend .item {
 	margin: 3px;
 }

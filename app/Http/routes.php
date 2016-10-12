@@ -85,5 +85,6 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::post('/delete/image/{image}', 'AdminController@delete_image');
 	Route::get('/cat/add/{category}', 'AdminController@add_category');
 	Route::get('/cat/del/{category}', 'AdminController@del_category');
+	Route::post('/search/user', 'AdminController@search_user');
 });
 

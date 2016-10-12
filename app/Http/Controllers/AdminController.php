@@ -22,7 +22,7 @@ class AdminController extends Controller
     	$totalUsers = User::all()->count();
     	$totalImages = Image::all()->count();
     	$totalAlbums = Album::all()->count();
-    	$latestImage = DB::table('images')->OrderBy('created_at','desc')->first();
+    	$latestImage = Image::OrderBy('created_at','desc')->first();
     	$recentImages = DB::table('images')->where('image_id', '<>', $latestImage->image_id)
     									   ->OrderBy('created_at', 'desc')
     									   ->take(10)->get();
@@ -34,6 +34,13 @@ class AdminController extends Controller
     								  ->with('latestImage', $latestImage)
     								  ->with('recentImages', $recentImages)
     								  ->with('recentUsers', $recentUsers);
+    }
+    public function search_user(Request $request){
+        $search = $request->input('term');
+        $users = User::where('name', 'like' , "%$search%")
+                       ->orwhere('username', 'like', "%$search%")
+                       ->get();
+        return response()->json($users, 200);
     }
     public function users(){
         $users = DB::table('users')->paginate(25);
@@ -69,21 +76,21 @@ class AdminController extends Controller
                                         ->with('reports', $reports);
     }
     public function delete_image(Image $image){
-        //$this->authorize('destroy', $image);
         $album = Album::find($image->album_id);
         if (Storage::disk('local')->exists($album->path . '/' . $image->name)) {
             Storage::delete($album->path . '/' . $image->name);
             $image->delete();
-            //Image::where('album_id', $album->album_id)->delete();
             return redirect('admin/images');
         }
-        abort(403);
+        abort(404);
     }
     public function reports(){
         $reports = DB::table('reports')->paginate(25);
         $suggestions = DB::table('category_suggestion')->paginate(25);
+        $categories = DB::table('categories')->paginate(25);
         return view('admin.reports')->with('reports', $reports)
-                                    ->with('suggestions', $suggestions);
+                                    ->with('suggestions', $suggestions)
+                                    ->with('categories', $categories);
     }
     public function add_category($category){
         $categories = DB::table('categories')->where('name', $category)->first();
@@ -95,7 +102,7 @@ class AdminController extends Controller
 
         DB::table('categories')->insert(['name' => $category]);
         session()->flash('status', 'Category successfully added');
-        return redirect()->back()->with();
+        return redirect()->back();
     }
     public function del_category($category){
         DB::table('category_suggestion')->where('category_id', $category)->delete();

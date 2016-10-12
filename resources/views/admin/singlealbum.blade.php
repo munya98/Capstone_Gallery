@@ -34,7 +34,13 @@
             </form>          
 		</div>
 		<div class = "col-md-6">
-			<button>Delete Album</button>
+			<form id = "confirm-delete" action = "{{ url('/albums/purge/' . $album->album_id) }}" method= "POST">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                <button type="submit" id="delete-album-{{ $album->album_id }}" class="btn-custom">
+                    <i class="fa fa-btn fa-trash"></i> Delete Album
+                </button>
+            </form>
 		</div>
 	</div>
 	<div class = "row">

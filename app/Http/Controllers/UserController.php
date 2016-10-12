@@ -14,11 +14,15 @@ use Storage;
 
 class UserController extends Controller
 {
-    //
+     /**
+    *   Fetch a user
+    *   @param $user - Current user
+    *   @return Images from current user
+    */
     public function index($user){
     	$currentUser = User::where('username', $user)->first();
         if (empty($currentUser)) {
-            abort(403);
+            abort(404);
         }
     	$images = Image::where('user_id', '=', $currentUser->id)->where('permission', 'public')->simplePaginate(30);
       $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
@@ -28,9 +32,13 @@ class UserController extends Controller
                                   ->with('img_count', $imageCount)
                                   ->with('album_count', $albumCount);
     }
-     //Get Image from Storage
+    /**
+    *   Fetch a user's avatar from storage
+    *   @param $user - Current user
+    *   @return User's avatar
+    *   
+    */
     public function showAvatar($file){
-    	//Storage::setVisibility('avatars/default.jpg', 'private');
     	$f = Storage::get('avatars/'. $file);
 		  return (new Response($f, 200))
                   ->header('Content-Type', 'image/jpeg');
