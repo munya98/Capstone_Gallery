@@ -14,8 +14,9 @@
 			<th class = "text-right">Permission</th>
 			<th class = "text-right">Created</th>
 		</tr>
+		@foreach($albums as $album)
 		<tr class = "text-right">
-			@foreach($albums as $album)
+			
 				<td><a href="{{ url('/admin/albums/'. $album->album_id)}}">View Album</a></td>
 				<td><a href="{{ url('/admin/users/'. $album->user_id)}}">View user: {{ $album->user_id }}</a></td>
 				<td>{{ $album->album_id }}</td>
@@ -24,7 +25,8 @@
 				<td>{{ $album->path }}</td>
 				<td>{{ $album->permission }}</td>
 				<td>{{ $album->created_at }}</td>
-			@endforeach
+			
 		</tr>
+		@endforeach
 	</table>
 @endsection

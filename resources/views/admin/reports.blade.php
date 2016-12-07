@@ -18,6 +18,7 @@
 				</tr>
 				@endforeach
 			</table>
+			{{ $categories->links() }}
 		</div>
 		<div class = "col-md-4">
 			<h4>Category Recommendations</h4>

@@ -39,7 +39,7 @@ $(document).ready(function(){
                 var table = "";
                 $.each(data, function(key, value){
                     table += '<tr><td>'
-                          +  '<a href = "users/' + value.id + '"' + '>View<a/>'
+                          +  '<a href = "users/' + value.id + '"' + '>View</a>'
                           +  '</td><td>'
                           +  value.name
                           +  '</td><td>'
@@ -50,7 +50,7 @@ $(document).ready(function(){
                           +  value.created_at
                           +  '</td><td>'
                           +  value.updated_at
-                          +  '</td><tr>';
+                          +  '</td></tr>';
                 });
                 $("#users-table").append(table);
                 console.log(data);

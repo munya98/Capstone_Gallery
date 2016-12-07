@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Well Chief.</title>
+        <title>403 Forbidden.</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -19,7 +19,9 @@
                 font-weight: 100;
                 font-family: 'Lato';
             }
+            a {
 
+            }
             .container {
                 text-align: center;
                 display: table-cell;
@@ -40,8 +42,8 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class = "title text-center">404</div>
-                <div class="title">What you are looking for is not available</div>
+                <div class = "title text-center">403</div>
+                <div class="title">Access Denied</div>
             </div>
         </div>
     </body>

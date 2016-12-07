@@ -7,14 +7,14 @@
         	<img class = "avatar-display img-circle img-responsive" src="{{ route('account.avatar', Auth::user()->avatar)}}" class="img-circle" id = "user-profile-pic">
             <h4 class = "text-center">{{ Auth::user()->username}}'s Albums</h4>
             <div style= "text-align:center">
-                <button type = "button" class = "btn-custom" data-toggle = "modal" data-target = "#createAlbum" id = "home-create-album-button"><span class = "glyphicon glyphicon-plus" aria-hidden = "true"></span> Create Album
-                    </button>
+                <button type = "button" class = "btn-custom" data-toggle = "modal" data-target = "#createAlbum" id = "home-create-album-button">    <span class = "glyphicon glyphicon-plus" aria-hidden = "true"></span> Create Album
+                </button>
             </div>
         </div>
     </div><br>
     @if(count($errors) > 0)
     <div class = "row">
-        <div class = "col-md-12">
+        <div class = "col-md-12"
             <div class = "alert alert-danger">
                 <ul style = "padding-left: 10px;" > 
                     @foreach($errors->all() as $error)

@@ -106,9 +106,10 @@ class AccountController extends Controller
             $user->answer = $request->input('answer');
             $user->bio = $request->input('bio');
             $user->avatar = $request->input('username') . substr($request->input('avatar'), -4);
-            Storage::move('avatars/' . Auth::user()->avatar, 'avatars/' . $request->input('username') . substr($request->input('avatar'), -4));
             $user->save();
 
+            Storage::move('avatars/' . Auth::user()->avatar, 'avatars/' . $request->input('username') . substr($request->input('avatar'), -4));
+            
             //If the user has any albums
             try {
                 $albumsCount = Album::where('user_id', Auth::user()->id)->count();
@@ -117,11 +118,11 @@ class AccountController extends Controller
                     foreach ($albums as $album) {
                         $album->path = 'users/albums/' . $request->input('username') . '/' . $album->permission . '/' . $album->name;
                         $album->save();
-                        $images = Img::where('album_id', $album->album_id)->get();
-                        foreach ($images as $img) {
-                            $img->path = $album->path;
-                            $img->save();
-                        }
+                        // $images = Img::where('album_id', $album->album_id)->get();
+                        // foreach ($images as $img) {
+                        //     $img->path = $album->path;
+                        //     $img->save();
+                        // }
                     }
                 }
             } catch (Exception $e) {

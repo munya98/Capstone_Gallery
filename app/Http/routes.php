@@ -31,6 +31,8 @@ Route::group(['prefix' => 'albums'], function (){
 });
 Route::group(['prefix' => 'images'], function(){
 	Route::get('/', 'ImagesController@index');
+	Route::get('/public', 'ImagesController@public_images');
+	Route::get('/private', 'ImagesController@private_images');
 	Route::get('/display/{album_id}/{file}', ['as' => 'image.serve', 'uses' => 'HomeController@serve']);//Public Serve
 	Route::get('/view/{name}', 'ImagesController@view');
 	Route::get('/upload', 'ImagesController@upload');

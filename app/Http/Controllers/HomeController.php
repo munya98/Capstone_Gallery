@@ -15,7 +15,7 @@ use Auth;
 class HomeController extends Controller
 {    
     /**
-     *  Show the application dashboard.
+     *  Show the application homepage.
      *  @param incoming request
      *  @return Paginated list of images
      */

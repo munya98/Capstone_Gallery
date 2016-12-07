@@ -95,16 +95,17 @@
                                     <a href="{{ url('/user/'. $commenter[$i]->username)}}">{{ $commenter[$i]->username}} </a>
                                 </p>
                                 <p>{{$comments[$i]->comment}}</p>
-                                @if($comments[$i]->user_id == Auth::user()->id)
-                                    <div class = "image-view-buttons">
-                                        <form method = 'POST' action = "{{ url('images/comments/delete/' . $comments[$i]->comment_id)}}">
-                                            {{ csrf_field() }}
-                                            <button class = "delete-comment pull-right">
-                                                <strong><i class="fa fa-btn fa-trash"></i> Delete</strong>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    
+                                @if(!Auth::guest())
+                                    @if($comments[$i]->user_id == Auth::user()->id)
+                                        <div class = "image-view-buttons">
+                                            <form method = 'POST' action = "{{ url('images/comments/delete/' . $comments[$i]->comment_id)}}">
+                                                {{ csrf_field() }}
+                                                <button class = "delete-comment pull-right">
+                                                    <strong><i class="fa fa-btn fa-trash"></i> Delete</strong>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
 						</td>

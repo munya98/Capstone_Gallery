@@ -12,6 +12,7 @@ use App\Album;
 use App\Image;
 use App\Reports;
 use App\Comments;
+use App\User;
 use Auth;
 use DB;
 use Storage;
@@ -28,8 +29,37 @@ class ImagesController extends Controller
     *   Show all images that belong to the currently authenticated user   
     */
     public function index(){
-        $images = Image::where('user_id', '=', Auth::user()->id)->get();
-    	return view('images.all')->with('images', $images);
+
+        $currentUser = User::where('username', Auth::user()->username)->first();
+        $images = Image::where('user_id', '=', $currentUser->id)->simplePaginate(30);
+        $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
+        $albumCount = Album::where('user_id', '=', $currentUser->id)->count();
+    	return view('images.user')->with('user', $currentUser)
+                                  ->with('images', $images)
+                                  ->with('img_count', $imageCount)
+                                  ->with('album_count', $albumCount);
+    }
+
+    public function private_images(){
+        $currentUser = User::where('username', Auth::user()->username)->first();
+        $images = Image::where('user_id', '=', $currentUser->id)->where('permission','private')->simplePaginate(30);
+        $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
+        $albumCount = Album::where('user_id', '=', $currentUser->id)->count();
+        return view('images.private')->with('user', $currentUser)
+                                  ->with('images', $images)
+                                  ->with('img_count', $imageCount)
+                                  ->with('album_count', $albumCount);
+    }
+
+    public function public_images(){
+        $currentUser = User::where('username', Auth::user()->username)->first();
+        $images = Image::where('user_id', '=', $currentUser->id)->where('permission','public')->simplePaginate(30);
+        $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
+        $albumCount = Album::where('user_id', '=', $currentUser->id)->count();
+        return view('images.public')->with('user', $currentUser)
+                                  ->with('images', $images)
+                                  ->with('img_count', $imageCount)
+                                  ->with('album_count', $albumCount);
     }
     /**
     *   Show the image upload page 
@@ -51,11 +81,13 @@ class ImagesController extends Controller
     *   Save an image to storage   
     */
     public function save_image(Request $request){
-        //
+        //Rules
         $rules = [
             'name' => 'required|min:4|max:25',
             'album' => 'required'
         ];
+
+        //Custom rule for image
         $images = count($request->input('image'));
         foreach (range(0, $images) as $image) {
             $rules['image.' . $image] = 'required|image|max:1024';

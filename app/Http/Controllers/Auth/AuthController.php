@@ -62,11 +62,11 @@ class AuthController extends Controller
         else{
             $user = User::where('username', $request->input('username'))->first();
             if (Hash::check($request->input('password'), $user->password)) {
-                if (Auth::attempt(['username' => $user->username, 'password' => $request->input('password'), 'active' => $user->active])) {
+                if (Auth::attempt(['username' => $user->username, 'password' => $request->input('password'), 'active' => 1])) {
                     return redirect()->back();
                 }else {
                     session()->flash('account-status', 'Your account is suspended');
-                    return redirect()->back();
+                    return redirect('/login');
                 }
             }
             session()->flash('status', 'Username or password is incorrect');

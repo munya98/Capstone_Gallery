@@ -2,6 +2,24 @@
 
 @section('content')
 	<div class = "container">
+		<div class = "row">
+	        @if(Session::has('status'))
+	            <h3>{{ Session::get('status')}}</h3>
+	        @endif
+	        <div class = "col-md-6 col-md-offset-3">
+	            <h1 class = "text-center brand-font">Search</h1>
+	            <form method = "get" action = "{{ url('/search')}}">
+	                <div class = "form-group">
+	                    <input class = "search-input" type="text" name="search" placeholder="Search...">
+	                    @if($errors->has('search'))
+	                        <span class="help-block">
+	                            <strong class = "error">{{ $errors->first('search') }}</strong>
+	                        </span>
+	                    @endif
+	                </div>
+	            </form>
+	        </div>
+	    </div>
 		<h1 class = "text-center brand-font">Browse By Categories</h1>
 		<ul class = "browse-categories">
 			@foreach($categories as $category)

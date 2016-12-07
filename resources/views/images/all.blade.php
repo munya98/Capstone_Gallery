@@ -2,7 +2,19 @@
 
 @section('content')
 	<div class = "container">
-		<h2 class = "text-center brand-font">{{ Auth::user()->username}}'s Images</h2>
+		<div class = "col-md-2">
+				<img class = "img-circle img-responsive" src="{{ route('account.avatar', $user->avatar)}}" class="img-circle" id = "user-avatar-display">
+			</div>
+			<div class = "col-md-6">
+				<div class = "user-display-details" style = "margin-top: 0px;">
+					<h4> {{ $user->username}} </h4>
+					<p> {{ $img_count }} Image(s) | {{ $album_count}} Album(s)</p>
+					<p> Bio:</p>
+					<p> {{ $user->bio}}</p>
+					asdads
+				</div>
+				<a href="#">Private</a>
+			</div>
 		<div class = "grid">
 	        <div class = "grid-sizer col-md-4"></div>
 	        @foreach($images as $image)
@@ -15,5 +27,6 @@
 	            </div>
 	        @endforeach
 	    </div>
+	    {{ $images->links() }}
 	</div>
 @endsection

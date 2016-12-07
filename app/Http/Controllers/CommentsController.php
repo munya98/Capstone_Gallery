@@ -30,6 +30,7 @@ class CommentsController extends Controller
         return redirect()->back();
     }
     public function delete_comment(Comments $comment){
-    	return $comment;
+        $comment->delete();
+    	return redirect()->back();
     }
 }
