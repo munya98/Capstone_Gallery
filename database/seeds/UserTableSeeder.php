@@ -13,19 +13,19 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Lucian Marksman',
-            'username' => 'Lucian',
-            'question' => 'Who am i in this game',
-            'answer' => 'The Marksman',
-            'password' => bcrypt('njhorizon'),
+            'name' => 'Lady Maria',
+            'username' => 'Maria',
+            'question' => 'Where am i located',
+            'answer' => 'Astal Clocktower',
+            'password' => bcrypt('default'),
             'active' => 1
         ]);
         DB::table('users')->insert([
-            'name' => 'Sheriff Kench',
-            'username' => 'Jazzy',
-            'question' => 'I shot the sheriff',
-            'answer' => 'did you tho',
-            'password' => bcrypt('njhorizon'),
+            'name' => 'Gehrman',
+            'username' => 'Admin',
+            'question' => 'What is my title ',
+            'answer' => 'The first hunter',
+            'password' => bcrypt('admin'),
             'active' => 1
         ]);
          DB::table('roles')->insert([

@@ -12,11 +12,6 @@
 					<p> {{ $img_count }} Image(s) | {{ $album_count}} Album(s)</p>
 					<p> Bio:</p>
 					<p> {{ $user->bio}}</p>
-					<a href="/images/private"><button class = "btn-custom">Private</button></a>
-
-					<a href="/images/public"><button class = "btn-custom">Public</button></a>
-
-					<a href="/images"><button class = "btn-custom">All</button></a>
 				</div>
 			</div>
 

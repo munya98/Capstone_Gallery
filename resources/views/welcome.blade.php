@@ -23,7 +23,7 @@
     <ul class = "social-welcome">
         <!-- <li><a href="#"><i class="fa fa-twitter" target = "_blank" aria-hidden="true"></i> Twitter</a></li> -->
         <!-- <li><a href="#"><i class="fa fa-facebook-square" target="_blank" aria-hidden="true"></i> Facebook</a></li> -->
-        <li><a href="#" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
+        <li><a href="https://github.com/munya98/Laravel-Image-Gallery" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i> Github</a></li>
     </ul>
     <div class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:black;">Sort By<span class="caret"></span></a>

@@ -125,12 +125,13 @@
                 {{ $comments->links()}}
 				<div class = "form-group">
 					<label for = "user-comment">Comment as {{ Auth::user()->username}}</label>
-					<textarea class = "form-control" name = "user-comment"></textarea>
-                    @if ($errors->has('comment'))
+                     @if ($errors->has('user-comment'))
                         <span class="help-block">
-                            <strong class = "error">{{ $errors->first('comment') }}</strong>
+                            <strong class = "error">{{ $errors->first('user-comment') }}</strong>
                         </span>
                     @endif
+					<textarea class = "form-control" name = "user-comment"></textarea>
+                   
 				</div>
 				<div class = "form-group">
 					<input class = "btn btn-default pull-right" type="submit" name="Submit" value = "Post Comment">

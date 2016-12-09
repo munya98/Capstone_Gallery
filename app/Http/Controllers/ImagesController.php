@@ -34,7 +34,7 @@ class ImagesController extends Controller
         $images = Image::where('user_id', '=', $currentUser->id)->simplePaginate(30);
         $imageCount = Image::where('user_id', '=', $currentUser->id)->count();
         $albumCount = Album::where('user_id', '=', $currentUser->id)->count();
-    	return view('images.user')->with('user', $currentUser)
+    	return view('images.all')->with('user', $currentUser)
                                   ->with('images', $images)
                                   ->with('img_count', $imageCount)
                                   ->with('album_count', $albumCount);
@@ -216,6 +216,9 @@ class ImagesController extends Controller
     *   
     */
     public function update(Image $image, Request $request){
+         //Update the views on the image
+        $image->views = $image->views - 1; 
+        $image->save();
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3|max:25'
         ]);
