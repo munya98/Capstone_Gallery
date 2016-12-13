@@ -198,6 +198,7 @@ class AdminController extends Controller
         $user->name = $request->input('name');
         $user->question = $request->input('question');
         $user->answer = $request->input('answer');
+        $user->bio = $request->input('bio');
         $user->save();
         session()->flash('status', $user->username  ."'s account successfully updated");
         return redirect()->back();

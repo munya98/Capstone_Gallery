@@ -96,7 +96,9 @@ class AlbumsController extends Controller
     *   
     */
     public function update(Request $request, Album $album){
-        $this->authorize('update', $album);
+        if(!Auth::user()->hasRole('Admin')){
+            $this->authorize('update', $album);
+        }
         //Custom validation messages
         $messages = [
             'regex' => 'The album title may only contain letters numbers and spaces',
@@ -116,6 +118,7 @@ class AlbumsController extends Controller
         }
 
         $currentAlbum = Album::find($album->album_id);
+        $owner = User::find($currentAlbum->user_id);
         $images = Image::where('album_id', $album->album_id)->get();
         /*  If the user changes the original name, update the name in the database 
         *   and update the name of the album in Storage;
@@ -124,7 +127,10 @@ class AlbumsController extends Controller
         $currentAlbum->description = $request->input('album-Description');
         $currentAlbum->permission = $request->input('album-Permission');
         
-        $path = 'users/albums/' . Auth::user()->username . '/' . $request->input('album-Permission') . '/' . $request->input('album-Title');
+        if(Auth::user()->hasRole('Admin'))
+            $path = 'users/albums/' . $owner->username . '/' . $request->input('album-Permission') . '/' . $request->input('album-Title');
+        else
+            $path = 'users/albums/' . Auth::user()->username . '/' . $request->input('album-Permission') . '/' . $request->input('album-Title');
         $currentAlbum->path = $path;
         foreach ($images as $image) {
             $image->permission = $request->input('album-Permission');
@@ -135,7 +141,12 @@ class AlbumsController extends Controller
         }
         Storage::move($album->path, $path);
         $currentAlbum->save();
-        return redirect('albums/' . $request->input('album-Title'));
+        if(Auth::user()->hasRole('Admin')){
+            return redirect()->back();
+        }else{
+            return redirect('albums/' . $request->input('album-Title'));
+        }
+        
     }
     /**
     *   Display the requested album
@@ -158,13 +169,19 @@ class AlbumsController extends Controller
     *   @return redirect to /albums  page
     */
     public function purge(Request $request, Album $album){
-        $this->authorize('purge', $album);
+        if(!Auth::user()->hasRole('Admin')){
+            $this->authorize('purge', $album);
+        }
         //$album->delete();
         if (Storage::disk('local')->exists($album->path)) {
             Storage::deleteDirectory($album->path);
             $album->delete();
             Image::where('album_id', $album->album_id)->delete();
-            return redirect('/albums');
+            if(Auth::user()->hasRole('Admin')){
+                return redirect('/admin/albums');
+            }else
+                return redirect('/albums');
+            
         }
         abort(404);
     }
