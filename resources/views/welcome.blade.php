@@ -7,7 +7,7 @@
             <h3>{{ Session::get('status')}}</h3>
         @endif
         <div class = "col-md-6 col-md-offset-3">
-            <h1 class = "text-center brand-font">Capstone</h1>
+            <h1 class = "text-center brand-font">Gallery</h1>
             <form method = "get" action = "{{ url('/search')}}">
                 <div class = "form-group">
                     <input class = "search-input" type="text" name="search" placeholder="Search...">

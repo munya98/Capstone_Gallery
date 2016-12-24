@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container">
-    <p>Capstone Project</p>
 
     <p>So what I used is listed below</p>
     <ul>
